@@ -6,7 +6,7 @@ const executeQuery = sql => {
         database: 'dukemeet',
         user: 'root',
         password: 'password',
-        port: 3300,
+        port: 3306,
         insecureAuth: true
     });
 
