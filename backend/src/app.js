@@ -7,12 +7,12 @@ const project = require('./routes/project');
 const user = require('./routes/user');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
-app.use('/application', application);
-app.use('/jobs', job);
-app.use('/project', project);
-app.use('/user', user);
+app.use('/api/application', application);
+app.use('/api/jobs', job);
+app.use('/api/project', project);
+app.use('/api/user', user);
 
 app.listen(port);
