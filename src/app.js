@@ -4,11 +4,13 @@ const { Job } = require('./db/Job');
 const { Project } = require('./db/Project');
 const { Application } = require('./db/Application');
 const application = require('./routes/application');
+const job = require('./routes/job');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use('/application', application);
+app.use('/jobs', job);
 
 
 // const res = User.login('test@test.com');

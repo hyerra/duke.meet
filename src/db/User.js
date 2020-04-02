@@ -9,6 +9,7 @@ class User {
         const query = `INSERT INTO User (email, year, major) VALUES ('${email}', '${year}', '${major}');`;
         try {
             const result = await db.executeQuery(query);
+            if (!result.insertId) throw new Error('Failed to register user');
             return result.insertId;
         } catch (error) {
             throw error;

@@ -23,6 +23,7 @@ class Project {
         const query = `INSERT INTO Project (title, description) VALUES ('${title}', '${description}');`;
         try {
             const result = await db.executeQuery(query);
+            if (!result.insertId) throw new Error('Failed to create project');
             return result.insertId;
         } catch (error) {
             throw error;

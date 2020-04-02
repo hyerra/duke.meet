@@ -13,6 +13,7 @@ class Job {
         const query = `INSERT INTO Job (project_id, title, payment, time_commitment) VALUES ('${projectID}', '${title}', '${payment}', '${timeCommitment}');`;
         try {
             const result = await db.executeQuery(query);
+            if (!result.insertId) throw new Error('Failed to insert job listing');
             return result.insertId;
         } catch (error) {
             throw error;

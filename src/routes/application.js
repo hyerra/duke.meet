@@ -4,8 +4,8 @@ const { Application } = require('./../db/Application');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    const userID = req.query.userID;
-    const jobID = req.query.jobID;
+    const userID = req.query.user_id;
+    const jobID = req.query.job_id;
 
     if (!userID || !jobID) return res.send({ error: 'Missing userID or jobID.' });
 

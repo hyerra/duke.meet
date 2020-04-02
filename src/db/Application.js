@@ -25,6 +25,7 @@ class Application {
         const query = `INSERT INTO Application (user_id, job_id, date) VALUES ('${userID}', '${jobID}', '${new Date().toJSON().slice(0, 10)}');`;
         try {
             const result = await db.executeQuery(query);
+            if (!result.insertId) throw new Error('Failed to apply to job');
             return result.insertId;
         } catch (error) {
             throw error;
