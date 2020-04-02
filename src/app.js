@@ -1,8 +1,4 @@
 const express = require('express');
-const { User } = require('./db/User');
-const { Job } = require('./db/Job');
-const { Project } = require('./db/Project');
-const { Application } = require('./db/Application');
 const application = require('./routes/application');
 const job = require('./routes/job');
 const project = require('./routes/project');
