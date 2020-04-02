@@ -9,6 +9,16 @@ class Job {
         this.timeCommitment = timeCommitment;
     }
 
+    static async createJobListing(projectID, title, payment, timeCommitment) {
+        const query = `INSERT INTO Job (project_id, title, payment, time_commitment) VALUES ('${projectID}', '${title}', '${payment}', '${timeCommitment}');`;
+        try {
+            const result = await db.executeQuery(query);
+            return result.insertId;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getAllJobs() {
         const query = 'SELECT * FROM Job;';
         const jobs = [];

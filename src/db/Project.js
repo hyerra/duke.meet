@@ -10,10 +10,20 @@ class Project {
     async fetchDetails() {
         const query = `SELECT * FROM Project WHERE id = '${this.id}';`;
         try {
-            const result = db.executeQuery(query);
+            const result = await db.executeQuery(query);
             const projectResult = result[0];
             this.title = projectResult.title;
             this.description = projectResult.description;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async createProject(title, description) {
+        const query = `INSERT INTO Project (title, description) VALUES ('${title}', '${description}');`;
+        try {
+            const result = await db.executeQuery(query);
+            return result.insertId;
         } catch (error) {
             throw error;
         }
