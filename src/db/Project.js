@@ -19,7 +19,7 @@ class Project {
         }
     }
 
-    async createProject(title, description) {
+    static async createProject(title, description) {
         const query = `INSERT INTO Project (title, description) VALUES ('${title}', '${description}');`;
         try {
             const result = await db.executeQuery(query);
