@@ -2,6 +2,7 @@ const express = require('express');
 const { User } = require('./db/User');
 const { Job } = require('./db/Job');
 const { Project } = require('./db/Project');
+const { Application } = require('./db/Application');
 
 // const res = User.login('test@test.com');
 // res.then(user => {
@@ -14,6 +15,6 @@ const { Project } = require('./db/Project');
 //     console.log(jobs);
 // });
 
-Project.getAllProjects().then(projects => {
-    console.log(projects);
+Application.getAllApplications(2).then(applications => {
+    console.log(applications);
 });
