@@ -6,6 +6,7 @@ const { Application } = require('./db/Application');
 const application = require('./routes/application');
 const job = require('./routes/job');
 const project = require('./routes/project');
+const user = require('./routes/user');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,20 +14,6 @@ const port = process.env.PORT || 3000;
 app.use('/application', application);
 app.use('/jobs', job);
 app.use('/project', project);
-
-// const res = User.login('test@test.com');
-// res.then(user => {
-//     user.fetchDetails().then(() => {
-//         console.log(user);
-//     });
-// });
-//
-// Job.getAllJobs().then(jobs => {
-//     console.log(jobs);
-// });
-//
-// Application.getAllApplications(2).then(applications => {
-//     console.log(applications);
-// });
+app.use('/user', user);
 
 app.listen(port);
