@@ -19,7 +19,11 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    Job.getAllJobs().then(jobs => {
+    const projectID = req.query.project_id;
+
+    if (!projectID) return res.send({ error: 'Missing one of the required fields.'} );
+    
+    Job.getJobs(projectID).then(jobs => {
         res.send(jobs);
     }).catch(error => {
         res.send({ error });

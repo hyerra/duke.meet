@@ -20,8 +20,8 @@ class Job {
         }
     }
 
-    static async getAllJobs() {
-        const query = 'SELECT * FROM Job;';
+    static async getJobs(projectID) {
+        const query = `SELECT * FROM Job WHERE project_id = ${projectID};`;
         const jobs = [];
         try {
             const results = await db.executeQuery(query);
