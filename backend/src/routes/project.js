@@ -22,14 +22,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    const userID = req.query.user_id;
     const title = req.query.title;
     const description = req.query.description;
 
-    if (!title || !description) return res.send({
+    if (!userID || !title || !description) return res.send({
         error: 'Missing required fields.'
     });
 
-    Project.createProject(title, description).then(() => {
+    Project.createProject(userID, title, description).then(() => {
         res.send({ success: true });
     }).catch(error => {
         res.send({ error });

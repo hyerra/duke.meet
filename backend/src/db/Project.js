@@ -19,12 +19,14 @@ class Project {
         }
     }
 
-    static async createProject(title, description) {
+    static async createProject(userID, title, description) {
         const query = `INSERT INTO Project (title, description) VALUES ('${title}', '${description}');`;
         try {
             const result = await db.executeQuery(query);
             if (!result.insertId) throw new Error('Failed to create project');
-            return result.insertId;
+            const createPosting = `INSERT INTO Posting(user_id, project_id) VALUES (${userID}, ${result.insertId});`;
+            const postingResult = await db.executeQuery(createPosting);
+            return (result.insertId, postingResult.insertId);
         } catch (error) {
             throw error;
         }
