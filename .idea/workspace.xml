@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a584b948-8cea-42ae-a44d-e819970fb29c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +32,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="13.12.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
@@ -50,7 +52,12 @@
       <option name="presentableId" value="Default" />
       <updated>1585775380353</updated>
       <workItem from="1585775385998" duration="8283000" />
-      <workItem from="1585802070468" duration="13827000" />
+      <workItem from="1585802070468" duration="14150000" />
+      <workItem from="1586462387896" duration="2579000" />
+      <workItem from="1586973869082" duration="1542000" />
+      <workItem from="1587078968967" duration="230000" />
+      <workItem from="1587196908083" duration="432000" />
+      <workItem from="1587323800503" duration="54000" />
     </task>
     <servers />
   </component>
