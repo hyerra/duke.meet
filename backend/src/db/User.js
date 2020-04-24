@@ -51,6 +51,22 @@ class User extends Table {
         }
     }
 
+    async fetchHashPassword() {
+        try {
+            const { session , table } = await User.table();
+            const query = await table
+                .select()
+                .where(`id = ${SqlString.escape(this.id)}`)
+                .execute();
+            const result = await query.fetchOne();
+            session.close();
+            if (!result) throw new Error('No matching user with id.');
+            return result[4];
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async fetchDetails() {
         try {
             const { session , table } = await User.table();
@@ -64,7 +80,6 @@ class User extends Table {
             this.email = result[1];
             this.year = result[2];
             this.major = result[3];
-            this.hashPassword = result[4];
         } catch (error) {
             throw error;
         }
