@@ -54,6 +54,4 @@ class Application extends Table {
     }
 }
 
-module.exports = {
-    Application
-};
+module.exports = { Application };

@@ -62,12 +62,11 @@ class User extends Table {
             this.email = result[1];
             this.year = result[2];
             this.major = result[3];
+            this.hashPassword = result[4];
         } catch (error) {
             throw error;
         }
     }
 }
 
-module.exports = {
-    User
-};
+module.exports = { User };

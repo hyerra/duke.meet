@@ -73,6 +73,4 @@ class Project extends Table {
     }
 }
 
-module.exports = {
-    Project
-};
+module.exports = { Project };

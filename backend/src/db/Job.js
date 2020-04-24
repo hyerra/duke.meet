@@ -60,6 +60,4 @@ class Job extends Table {
     }
 }
 
-module.exports = {
-    Job
-};
+module.exports = { Job };
