@@ -19,6 +19,11 @@ class NavigationBar extends React.Component {
                     active={this.props.activeItem === 'projects'}
                     onClick={this.handleItemClick}
                 />
+                <Menu.Item
+                    name='about'
+                    active={this.props.activeItem === 'about'}
+                    onClick={this.handleItemClick}
+                />
                 <Menu.Menu position='right'>
                     <AccountItem />
                 </Menu.Menu>

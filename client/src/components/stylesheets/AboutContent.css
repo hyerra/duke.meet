@@ -1,0 +1,29 @@
+body{
+    text-align: center;
+    background-color: #F0F8FF;
+}
+
+.AboutContent{
+    font-family: Copperplate, 'Copperplate Gothic Light';
+    font-size: 64px;
+    font-style: bold;
+    font-variant: normal;
+    font-weight: 700;
+    color: #000080;
+}
+
+.dukemeet{
+    font-family: Copperplate, "Copperplate Gothic Light";
+    font-size: 72px;
+    font-style: bold;
+    font-variant: normal;
+    font-weight: 700;
+    color: #000080;
+}
+
+.description{
+    font-family: Copperplate;
+}
+#root {
+    margin-top: 2rem;
+  }
