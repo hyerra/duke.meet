@@ -13,7 +13,8 @@ class Project extends Table {
     static async table() {
         try {
             const session = await client.getSession();
-            return session.getSchema('dukemeet').getTable('Project');
+            const table = session.getSchema('dukemeet').getTable('Project');
+            return { session, table }
         } catch (error) {
             throw error;
         }
@@ -21,7 +22,7 @@ class Project extends Table {
 
     async fetchDetails() {
         try {
-            const table = await Project.table();
+            const { session , table } = await Project.table();
             const query = await table
                 .select()
                 .where(`id = ${SqlString.escape(this.id)}`)
@@ -31,6 +32,7 @@ class Project extends Table {
             if (!result) throw new Error('No matching ids.');
             this.title = result[1];
             this.description =  result[2];
+            session.close();
         } catch (error) {
             throw error;
         }
@@ -38,12 +40,14 @@ class Project extends Table {
 
     static async createProject(userID, title, description) {
         try {
-            const table = await Project.table();
+            const { session , table } = await Project.table();
             const insertedRow = await table
                 .insert('title', 'description')
                 .values(title, description)
                 .execute();
-            return insertedRow.getAutoIncrementValue();
+            const insertID = insertedRow.getAutoIncrementValue();
+            session.close();
+            return insertID;
         } catch (error) {
             throw error;
         }
@@ -52,11 +56,12 @@ class Project extends Table {
     static async getAllProjects() {
         const projects = [];
         try {
-            const table = await Project.table();
+            const { session , table } = await Project.table();
             const query = await table
                 .select()
                 .execute();
             const results = await query.toArray();
+            session.close();
             if (!results) return projects;
             results.forEach(project => {
                 projects.push(new Project(project[0], project[1], project[2]));

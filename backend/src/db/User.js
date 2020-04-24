@@ -11,7 +11,8 @@ class User extends Table {
     static async table() {
         try {
             const session = await client.getSession();
-            return session.getSchema('dukemeet').getTable('User');
+            const table = session.getSchema('dukemeet').getTable('User');
+            return { session , table }
         } catch (error) {
             throw error;
         }
@@ -19,12 +20,14 @@ class User extends Table {
 
     static async register(email, year, major) {
         try {
-            const table = await User.table();
+            const { session , table } = await User.table();
             const insertedRow = await table
                 .insert('email', 'year', 'major')
                 .values(email, year, major)
                 .execute();
-            return await insertedRow.getAutoIncrementValue();
+            const insertID = await insertedRow.getAutoIncrementValue();
+            session.close();
+            return insertID;
         } catch (error) {
             throw error;
         }
@@ -32,12 +35,13 @@ class User extends Table {
 
     static async login(email) {
         try {
-            const table = await User.table();
+            const { session , table } = await User.table();
             const query = await table
                 .select()
                 .where(`email = ${SqlString.escape(email)}`)
                 .execute();
             const result = await query.fetchOne();
+            session.close();
             if (!result) throw new Error('No matching email.');
             return new User(result[0]);
         } catch (error) {
@@ -47,12 +51,13 @@ class User extends Table {
 
     async fetchDetails() {
         try {
-            const table = await User.table();
+            const { session , table } = await User.table();
             const query = await table
                 .select()
                 .where(`id = ${SqlString.escape(this.id)}`)
                 .execute();
             const result = await query.fetchOne();
+            session.close();
             if (!result) throw new Error('No matching user with id.');
             this.email = result[1];
             this.year = result[2];
