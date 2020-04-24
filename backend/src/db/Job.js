@@ -15,7 +15,8 @@ class Job extends Table {
     static async table() {
         try {
             const session = await client.getSession();
-            return session.getSchema('dukemeet').getTable('Job');
+            const table = session.getSchema('dukemeet').getTable('Job');
+            return { session, table }
         } catch (error) {
             throw error;
         }
@@ -28,7 +29,9 @@ class Job extends Table {
                 .insert('project_id', 'title', 'payment', 'time_commitment')
                 .values(projectID, title, payment, timeCommitment)
                 .execute();
-            return await insertedRow.getAutoIncrementValue();
+            const insertID = await insertedRow.getAutoIncrementValue();
+            session.close();
+            return insertID;
         } catch (error) {
             throw error;
         }
@@ -37,12 +40,13 @@ class Job extends Table {
     static async getJobs(projectID) {
         const jobs = [];
         try {
-            const table = await Job.table();
+            const { session, table } = await Job.table();
             const query = await table
                 .select()
                 .where(`project_id = ${SqlString.escape(projectID)}`)
                 .execute();
             const results = await query.toArray();
+            session.close();
             if (!results) return jobs;
 
             results.forEach(jobRes => {
@@ -56,6 +60,4 @@ class Job extends Table {
     }
 }
 
-module.exports = {
-    Job
-};
+module.exports = { Job };
