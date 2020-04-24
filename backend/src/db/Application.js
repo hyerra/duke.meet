@@ -1,19 +1,33 @@
-const db = require('./db');
+const { client } = require('./db');
+const { Table } = require('./Table');
 
-class Application {
+class Application extends Table {
     constructor(userID, jobID, date) {
+        super();
         this.userID = userID;
         this.jobID = jobID;
         this.date = date;
     }
 
+    static async table() {
+        try {
+            const session = await client.getSession();
+            return session.getSchema('dukemeet').getTable('Application');
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getAllApplications(projectID) {
-        const query = `SELECT Application.user_id, Application.job_id, Application.date FROM Application, Job WHERE Application.job_id = Job.id AND Job.project_id = ${projectID};`;
         const applications = [];
         try {
-            const results = await db.executeQuery(query);
+            const session = await client.getSession();
+            const query = await session.sql(`SELECT Application.user_id, Application.job_id, Application.date FROM dukemeet.Application, dukemeet.Job WHERE Application.job_id = Job.id AND Job.project_id = ${projectID};`)
+                .execute();
+            const results = await query.toArray();
+            if (!results) return applications;
             results.forEach(application => {
-                applications.push(new Application(application.user_id, application.job_id, application.date));
+                applications.push(new Application(application[0], application[1], application[2]));
             });
             return applications;
         } catch (error) {
@@ -22,11 +36,13 @@ class Application {
     }
 
     static async apply(userID, jobID) {
-        const query = `INSERT INTO Application (user_id, job_id, date) VALUES ('${userID}', '${jobID}', '${new Date().toJSON().slice(0, 10)}');`;
         try {
-            const result = await db.executeQuery(query);
-            if (!result.insertId) throw new Error('Failed to apply to job');
-            return result.insertId;
+            const table = await Application.table();
+            const insertedRow = await table
+                .insert('user_id', 'job_id', 'date')
+                .values(userID, jobID, new Date().toJSON().slice(0, 10))
+                .execute();
+            return await insertedRow.getAutoIncrementValue();
         } catch (error) {
             throw error;
         }

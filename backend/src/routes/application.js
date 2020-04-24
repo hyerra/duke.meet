@@ -6,22 +6,21 @@ const router = express.Router();
 router.post('/', (req, res) => {
     const userID = req.query.user_id;
     const jobID = req.query.job_id;
-
     if (!userID || !jobID) return res.send({ error: 'Missing userID or jobID.' });
 
     Application.apply(userID, jobID).then(() => {
         res.send({ success: true })
     }).catch(error => {
-        res.send({ error })
+        res.send({ error: error.message })
     });
 });
 
 router.get('/', (req, res) => {
-    const projectID = req.query.projectID;
+    const projectID = req.query.project_id;
     Application.getAllApplications(projectID).then(applications => {
         res.send(applications);
     }).catch(error => {
-        res.send({ error })
+        res.send({ error: error.message })
     });
 });
 

@@ -1,44 +1,64 @@
-const db = require('./db');
+const { client } = require('./db');
+const { Table } = require('./Table');
 
-class Project {
+class Project extends Table {
     constructor(id, title, description) {
+        super();
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
-    async fetchDetails() {
-        const query = `SELECT * FROM Project WHERE id = '${this.id}';`;
+    static async table() {
         try {
-            const result = await db.executeQuery(query);
-            const projectResult = result[0];
-            this.title = projectResult.title;
-            this.description = projectResult.description;
+            const session = await client.getSession();
+            return session.getSchema('dukemeet').getTable('Project');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchDetails() {
+        try {
+            const table = await Project.table();
+            const query = await table
+                .select()
+                .where(`id = ${this.id}`)
+                .execute();
+
+            const result = query.fetchOne();
+            if (!result) throw new Error('No matching ids.');
+            this.title = result[1];
+            this.description =  result[2];
         } catch (error) {
             throw error;
         }
     }
 
     static async createProject(userID, title, description) {
-        const query = `INSERT INTO Project (title, description) VALUES ('${title}', '${description}');`;
         try {
-            const result = await db.executeQuery(query);
-            if (!result.insertId) throw new Error('Failed to create project');
-            const createPosting = `INSERT INTO Posting(user_id, project_id) VALUES (${userID}, ${result.insertId});`;
-            const postingResult = await db.executeQuery(createPosting);
-            return (result.insertId, postingResult.insertId);
+            const table = await Project.table();
+            const insertedRow = await table
+                .insert('title', 'description')
+                .values(title, description)
+                .execute();
+            return insertedRow.getAutoIncrementValue();
         } catch (error) {
             throw error;
         }
     }
 
     static async getAllProjects() {
-        const query = `SELECT * FROM Project;`;
         const projects = [];
         try {
-            const results = await db.executeQuery(query);
+            const table = await Project.table();
+            const query = await table
+                .select()
+                .execute();
+            const results = await query.toArray();
+            if (!results) return projects;
             results.forEach(project => {
-                projects.push(new Project(project.id, project.title, project.description));
+                projects.push(new Project(project[0], project[1], project[2]));
             });
             return projects;
         } catch (error) {

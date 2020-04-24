@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
     Job.createJobListing(projectID, title, payment, timeCommitment).then(() => {
         res.send({ success: true });
     }).catch(error => {
-        res.send({ error });
+        res.send({ error: error.message });
     })
 });
 
@@ -26,7 +26,8 @@ router.get('/', (req, res) => {
     Job.getJobs(projectID).then(jobs => {
         res.send(jobs);
     }).catch(error => {
-        res.send({ error });
+        console.log(error);
+        res.send({ error: error.message });
     })
 });
 

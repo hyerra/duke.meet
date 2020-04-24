@@ -1,7 +1,9 @@
-const db = require('./db');
+const { client } = require('./db');
+const { Table } = require('./Table');
 
-class Job {
+class Job extends Table {
     constructor(id, projectID, title, payment, timeCommitment) {
+        super();
         this.id = id;
         this.projectID = projectID;
         this.title = title;
@@ -9,24 +11,41 @@ class Job {
         this.timeCommitment = timeCommitment;
     }
 
-    static async createJobListing(projectID, title, payment, timeCommitment) {
-        const query = `INSERT INTO Job (project_id, title, payment, time_commitment) VALUES ('${projectID}', '${title}', '${payment}', '${timeCommitment}');`;
+    static async table() {
         try {
-            const result = await db.executeQuery(query);
-            if (!result.insertId) throw new Error('Failed to insert job listing');
-            return result.insertId;
+            const session = await client.getSession();
+            return session.getSchema('dukemeet').getTable('Job');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async createJobListing(projectID, title, payment, timeCommitment) {
+        try {
+            const table = await Job.table();
+            const insertedRow = await table
+                .insert('project_id', 'title', 'payment', 'time_commitment')
+                .values(projectID, title, payment, timeCommitment)
+                .execute();
+            return await insertedRow.getAutoIncrementValue();
         } catch (error) {
             throw error;
         }
     }
 
     static async getJobs(projectID) {
-        const query = `SELECT * FROM Job WHERE project_id = ${projectID};`;
         const jobs = [];
         try {
-            const results = await db.executeQuery(query);
+            const table = await Job.table();
+            const query = await table
+                .select()
+                .where(`project_id = ${projectID}`)
+                .execute();
+            const results = await query.toArray();
+            if (!results) return jobs;
+
             results.forEach(jobRes => {
-                const job = new Job(jobRes.id, jobRes.project_id, jobRes.title, jobRes.payment, jobRes.time_commitment);
+                const job = new Job(jobRes[0], jobRes[1], jobRes[2], jobRes[3], jobRes[4]);
                 jobs.push(job);
             });
             return jobs;

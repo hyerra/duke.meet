@@ -9,14 +9,14 @@ router.get('/', (req, res) => {
         Project.getAllProjects().then(projects => {
             res.send(projects);
         }).catch(error => {
-            res.send({ error });
+            res.send({ error: error.message });
         })
     } else {
         const project = new Project(id);
         project.fetchDetails().then(() => {
             res.send(project);
         }).catch(error => {
-            res.send({ error })
+            res.send({ error: error.message })
         });
     }
 });
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
     Project.createProject(userID, title, description).then(() => {
         res.send({ success: true });
     }).catch(error => {
-        res.send({ error });
+        res.send({ error: error.message });
     })
 });
 

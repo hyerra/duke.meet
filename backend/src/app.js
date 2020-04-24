@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use('/api/application', application);
-app.use('/api/jobs', job);
+app.use('/api/job', job);
 app.use('/api/project', project);
 app.use('/api/user', user);
 

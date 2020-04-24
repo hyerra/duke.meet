@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     User.register(email, year, major).then(() => {
         res.send({ success: true });
     }).catch(error => {
-        res.send({ error });
+        res.send({ error: error.message });
     })
 });
 
@@ -25,13 +25,13 @@ router.get('/', (req, res) => {
         user.fetchDetails().then(() => {
             res.send(user);
         }).catch(error => {
-            res.send({ error });
+            res.send({ error: error.message });
         });
     } else if (email) {
         User.login(email).then(id => {
             res.send(id);
         }).catch(error => {
-            res.send({ error });
+            res.send({ error: error.message });
         });
     } else {
         res.send({ error: 'Missing id or email.' });

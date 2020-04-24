@@ -1,39 +1,61 @@
-const db = require('./db');
+const { client } = require('./db');
+const { Table } = require('./Table');
 
-class User {
+class User extends Table {
     constructor(id) {
+        super();
         this.id = id;
     }
 
-    static async register(email, year, major) {
-        const query = `INSERT INTO User (email, year, major) VALUES ('${email}', '${year}', '${major}');`;
+    static async table() {
         try {
-            const result = await db.executeQuery(query);
-            if (!result.insertId) throw new Error('Failed to register user');
-            return result.insertId;
+            const session = await client.getSession();
+            return session.getSchema('dukemeet').getTable('User');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async register(email, year, major) {
+        try {
+            const table = await User.table();
+            const insertedRow = await table
+                .insert('email', 'year', 'major')
+                .values(email, year, major)
+                .execute();
+            return await insertedRow.getAutoIncrementValue();
         } catch (error) {
             throw error;
         }
     }
 
     static async login(email) {
-        const query = `SELECT id FROM User WHERE email = '${email}';`;
         try {
-            const result = await db.executeQuery(query);
-            return new User(result[0].id);
+            const table = await User.table();
+            const query = await table
+                .select()
+                .where(`email = '${email}'`)
+                .execute();
+            const result = await query.fetchOne();
+            if (!result) throw new Error('No matching email.');
+            return new User(result[0]);
         } catch (error) {
             throw error;
         }
     }
 
     async fetchDetails() {
-        const query = `SELECT * FROM User WHERE id = '${this.id}';`;
         try {
-            const result = await db.executeQuery(query);
-            const userInfo = result[0];
-            this.email = userInfo.email;
-            this.year = userInfo.year;
-            this.major = userInfo.major;
+            const table = await User.table();
+            const query = await table
+                .select()
+                .where(`id = ${this.id}`)
+                .execute();
+            const result = await query.fetchOne();
+            if (!result) throw new Error('No matching user with id.');
+            this.email = result[1];
+            this.year = result[2];
+            this.major = result[3];
         } catch (error) {
             throw error;
         }
