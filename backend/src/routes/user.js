@@ -7,9 +7,10 @@ router.post('/', (req, res) => {
     const email = req.query.email;
     const year = req.query.year;
     const major = req.query.major;
+    const password = req.query.password;
 
     if (!email, !year, !major) return res.send({ error: 'Missing required fields.' });
-    User.register(email, year, major).then(() => {
+    User.register(email, year, major, password).then(() => {
         res.send({ success: true });
     }).catch(error => {
         res.send({ error: error.message });

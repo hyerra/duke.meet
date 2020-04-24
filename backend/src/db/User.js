@@ -1,4 +1,5 @@
 const SqlString = require('sqlstring');
+const bcrypt = require('bcrypt');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
@@ -18,12 +19,13 @@ class User extends Table {
         }
     }
 
-    static async register(email, year, major) {
+    static async register(email, year, major, password) {
         try {
             const { session , table } = await User.table();
+            const hashedPassword = await bcrypt.hash(password, 10);
             const insertedRow = await table
-                .insert('email', 'year', 'major')
-                .values(email, year, major)
+                .insert('email', 'year', 'major', 'hash_password')
+                .values(email, year, major, hashedPassword)
                 .execute();
             const insertID = await insertedRow.getAutoIncrementValue();
             session.close();
@@ -65,6 +67,20 @@ class User extends Table {
             this.hashPassword = result[4];
         } catch (error) {
             throw error;
+        }
+    }
+
+    static async serializeUser(user, done) {
+        done(null, user.id);
+    }
+
+    static async deserializeUser(id, done) {
+        try {
+            const user = new User(id);
+            await user.fetchDetails();
+            done(null, user);
+        } catch (error) {
+            done(error, null)
         }
     }
 }
