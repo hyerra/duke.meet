@@ -1,3 +1,4 @@
+const SqlString = require('sqlstring');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
@@ -22,7 +23,7 @@ class Application extends Table {
         const applications = [];
         try {
             const session = await client.getSession();
-            const query = await session.sql(`SELECT Application.user_id, Application.job_id, Application.date FROM dukemeet.Application, dukemeet.Job WHERE Application.job_id = Job.id AND Job.project_id = ${projectID};`)
+            const query = await session.sql(`SELECT Application.user_id, Application.job_id, Application.date FROM dukemeet.Application, dukemeet.Job WHERE Application.job_id = Job.id AND Job.project_id = ${SqlString.escape(projectID)};`)
                 .execute();
             const results = await query.toArray();
             if (!results) return applications;

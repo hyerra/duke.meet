@@ -1,3 +1,4 @@
+const SqlString = require('sqlstring');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
@@ -23,7 +24,7 @@ class Project extends Table {
             const table = await Project.table();
             const query = await table
                 .select()
-                .where(`id = ${this.id}`)
+                .where(`id = ${SqlString.escape(this.id)}`)
                 .execute();
 
             const result = query.fetchOne();

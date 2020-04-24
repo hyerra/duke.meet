@@ -1,3 +1,4 @@
+const SqlString = require('sqlstring');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
@@ -34,7 +35,7 @@ class User extends Table {
             const table = await User.table();
             const query = await table
                 .select()
-                .where(`email = '${email}'`)
+                .where(`email = ${SqlString.escape(email)}`)
                 .execute();
             const result = await query.fetchOne();
             if (!result) throw new Error('No matching email.');
@@ -49,7 +50,7 @@ class User extends Table {
             const table = await User.table();
             const query = await table
                 .select()
-                .where(`id = ${this.id}`)
+                .where(`id = ${SqlString.escape(this.id)}`)
                 .execute();
             const result = await query.fetchOne();
             if (!result) throw new Error('No matching user with id.');

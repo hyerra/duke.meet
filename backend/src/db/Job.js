@@ -1,3 +1,4 @@
+const SqlString = require('sqlstring');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
@@ -39,7 +40,7 @@ class Job extends Table {
             const table = await Job.table();
             const query = await table
                 .select()
-                .where(`project_id = ${projectID}`)
+                .where(`project_id = ${SqlString.escape(projectID)}`)
                 .execute();
             const results = await query.toArray();
             if (!results) return jobs;
