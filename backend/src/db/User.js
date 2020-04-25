@@ -2,6 +2,7 @@ const SqlString = require('sqlstring');
 const bcrypt = require('bcrypt');
 const { client } = require('./db');
 const { Table } = require('./Table');
+const { Posting } = require('./Posting');
 
 class User extends Table {
     constructor(id) {
@@ -19,13 +20,13 @@ class User extends Table {
         }
     }
 
-    static async register(email, year, major, password) {
+    static async register(name, email, major, year, password) {
         try {
             const { session , table } = await User.table();
             const hashedPassword = await bcrypt.hash(password, 10);
             const insertedRow = await table
-                .insert('email', 'year', 'major', 'hash_password')
-                .values(email, year, major, hashedPassword)
+                .insert('name', 'email', 'major','year', 'hash_password')
+                .values(name, email, major, year, hashedPassword)
                 .execute();
             const insertID = await insertedRow.getAutoIncrementValue();
             session.close();
@@ -61,7 +62,7 @@ class User extends Table {
             const result = await query.fetchOne();
             session.close();
             if (!result) throw new Error('No matching user with id.');
-            return result[4];
+            return result[5];
         } catch (error) {
             throw error;
         }
@@ -77,9 +78,19 @@ class User extends Table {
             const result = await query.fetchOne();
             session.close();
             if (!result) throw new Error('No matching user with id.');
-            this.email = result[1];
-            this.year = result[2];
+            this.name = result[1]
+            this.email = result[2];
             this.major = result[3];
+            this.year = result[4];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchProjectIDs() {
+        try {
+            const postings = await Posting.getPostings(this.id);
+            return postings.map(posting => posting.projectID);
         } catch (error) {
             throw error;
         }
