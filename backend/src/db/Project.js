@@ -29,10 +29,10 @@ class Project extends Table {
                 .execute();
 
             const result = query.fetchOne();
+            session.close();
             if (!result) throw new Error('No matching ids.');
             this.title = result[1];
             this.description =  result[2];
-            session.close();
         } catch (error) {
             throw error;
         }
