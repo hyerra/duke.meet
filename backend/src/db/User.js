@@ -62,7 +62,7 @@ class User extends Table {
             const result = await query.fetchOne();
             session.close();
             if (!result) throw new Error('No matching user with id.');
-            return result[4];
+            return result[5];
         } catch (error) {
             throw error;
         }
@@ -78,9 +78,10 @@ class User extends Table {
             const result = await query.fetchOne();
             session.close();
             if (!result) throw new Error('No matching user with id.');
-            this.email = result[1];
-            this.year = result[2];
+            this.name = result[1]
+            this.email = result[2];
             this.major = result[3];
+            this.year = result[4];
         } catch (error) {
             throw error;
         }
