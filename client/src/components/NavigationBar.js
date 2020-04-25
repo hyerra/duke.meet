@@ -1,34 +1,31 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react';
 import AccountItem from './Account/AccountItem';
 
 class NavigationBar extends React.Component {
-
-    handleItemClick = (e, { name }) => this.props.updateItem(name);
-
     render() {
         return (
           <Menu secondary>
             <Menu.Item
-              name="home"
-              active={this.props.activeItem === "home"}
-              onClick={this.handleItemClick}
+              as={NavLink}
+              exact
+              to='/'
+              name='home'
+              activeClassName='active'
             />
             <Menu.Item
-              name="projects"
-              active={this.props.activeItem === "projects"}
-              onClick={this.handleItemClick}
+              as={NavLink}
+              to='/projects'
+              name='projects'
+              activeClassName='active'
             />
             <Menu.Item
-              name="about"
-              active={this.props.activeItem === "about"}
-              onClick={this.handleItemClick}
+              as={NavLink}
+              to='/about'
+              name='about'
+              activeClassName='active'
             />
-            <Menu.Item
-              name="jobs"
-              active={this.props.activeItem === "jobs"}
-              onClick={this.handleItemClick}
-            >Jobs (test)</Menu.Item>
             <Menu.Menu position="right">
               <AccountItem />
             </Menu.Menu>

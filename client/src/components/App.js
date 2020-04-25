@@ -1,36 +1,25 @@
 import React from 'react';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { Container } from 'semantic-ui-react';
 import NavigationBar from './NavigationBar';
 import MainContent from './Home/MainContent';
 import ProjectContent from './Project/ProjectContent';
-import JobContent from './Job/JobContent';
 import './App.css';
 
-class App extends React.Component {
-    state = { activeItem: 'home' };
-
-    updateActiveItem = item => this.setState({ activeItem: item });
-
-    renderMainPage() {
-        if (this.state.activeItem === "home") {
-          return <MainContent />;
-        } else if (this.state.activeItem === "projects") {
-          return <ProjectContent />;
-        } else if (this.state.activeItem === "jobs") {
-          return <JobContent />;
-        }
-    }
-
-    render() {
-        return (
+const App = props => {
+    return (
+        <Router>
             <Container>
                 <div className='main-content'>
-                    <NavigationBar activeItem={this.state.activeItem} updateItem={this.updateActiveItem}/>
-                    {this.renderMainPage()}
+                    <NavigationBar />
+                    <Switch>
+                        <Route path='/' exact component={MainContent} />
+                        <Route path='/projects' component={ProjectContent} />
+                    </Switch>
                 </div>
             </Container>
-        );
-    }
-}
+        </Router>
+    );
+};
 
 export default App;
