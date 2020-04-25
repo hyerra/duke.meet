@@ -1,36 +1,38 @@
+const SqlString = require('sqlstring');
 const { client } = require('./db');
 const { Table } = require('./Table');
 
-class Skill extends Table {
-    constructor(id, name) {
+class JobRequires extends Table {
+    constructor(jobID, skillID) {
         super();
-        this.id = id;
-        this.name = name;
+        this.jobID = jobID;
+        this.skillID = skillID;
     }
 
     static async table() {
         try {
             const session = await client.getSession();
-            const table = session.getSchema('dukemeet').getTable('Skill');
-            return {session, table};
+            const table = session.getSchema('dukemeet').getTable('JobRequires');
+            return { session, table };
         } catch (error) {
             throw error;
         }
     }
 
-    static async getAllSkills() {
+    static async fetchSkillsForJob(jobID) {
         const skills = [];
         try {
             const { session, table } = await Project.table();
             const query = await table
                 .select()
+                .where(`job_id = ${SqlString.escape(jobID)}`)
                 .execute();
 
             const results = query.toArray();
             session.close();
             if (!results) return skills;
             results.forEach((skill) => {
-                skills.push(new Skill(skill[0], skill[1]));
+                skills.push(new JobRequires(skill[0], skill[1]));
             });
             return skills;
         } catch (error) {
@@ -39,4 +41,4 @@ class Skill extends Table {
     }
 }
 
-module.exports = { Skill };
+module.exports = { JobRequires };
