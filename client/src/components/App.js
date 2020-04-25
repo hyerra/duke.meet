@@ -7,6 +7,8 @@ import MainContent from './Home/MainContent';
 import ProjectContent from './Project/ProjectContent';
 import JobContent from './Job/JobContent';
 import AboutContent from './About/AboutContent';
+import Login from './Login/Login';
+import Register from './Register/Register';
 
 const App = () => (
   <Router>
@@ -17,7 +19,9 @@ const App = () => (
           <Route path="/" exact component={MainContent} />
           <Route path="/projects" exact component={ProjectContent} />
           <Route path="/projects/:id" component={JobContent} />
-          <Route path='/About' component={AboutContent} />
+          <Route path="/about" component={AboutContent} />
+          <Route path="/login" component={Login} />
+          <Route path="/sign_up" component={Register} />
         </Switch>
       </div>
     </Container>
