@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "no-useless-catch": [0],
+    "consistent-return": [0],
+    "no-unused-expressions": "warn",
+    "max-len": "warn"
+  }
+}

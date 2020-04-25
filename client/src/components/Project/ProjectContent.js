@@ -5,7 +5,7 @@ import project from '../../api/project';
 import Project from '../../model/Project';
 
 class ProjectContent extends React.Component {
-    state = {projects: []};
+    state = { projects: [] };
 
     componentDidMount() {
         this.fetchProjects();

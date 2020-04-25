@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "lint": "eslint \"**/*.js\" --ignore-path .eslintignore --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint --no-verify"
+    }
   },
   "keywords": [],
   "author": "",
@@ -21,5 +27,11 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sqlstring": "^2.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "husky": "^4.2.5"
   }
 }

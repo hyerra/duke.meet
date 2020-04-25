@@ -31,9 +31,9 @@ app.use(bodyParser.json());
 
 app.set('trust proxy', 1);
 app.use(session({
-    secret: 'dskjfoiewjaomofaicu8eurowijocijziosu8fwjonsoifojewofiegho',
-    resave: false,
-    saveUninitialized: true
+  secret: 'dskjfoiewjaomofaicu8eurowijocijziosu8fwjonsoifojewofiegho',
+  resave: false,
+  saveUninitialized: true,
 }));
 
 app.use(passport.initialize());
@@ -45,14 +45,14 @@ app.use('/api/job', job);
 app.use('/api/project', project);
 app.use('/api/user', user);
 app.post('/login', (req, res, next) => {
-    passport.authenticate('local', (error, user, info) => {
-        req.logIn(user, function (loginError) {
-            if (error) return res.send({ error: error.message });
-            if (loginError) return res.send({ error: error.message });
-            if (!user) return res.send({ error: 'Wrong username or password.' });
-            res.send(user);
-        });
-    })(req, res, next);
+  passport.authenticate('local', (error, retrievedUser) => {
+    req.logIn(user, (loginError) => {
+      if (error) return res.send({ error: error.message });
+      if (loginError) return res.send({ error: error.message });
+      if (!retrievedUser) return res.send({ error: 'Wrong username or password.' });
+      res.send(retrievedUser);
+    });
+  })(req, res, next);
 });
 
 app.listen(port);
