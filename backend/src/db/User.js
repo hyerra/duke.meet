@@ -2,6 +2,7 @@ const SqlString = require('sqlstring');
 const bcrypt = require('bcrypt');
 const { client } = require('./db');
 const { Table } = require('./Table');
+const { Posting } = require('./Posting');
 
 class User extends Table {
     constructor(id) {
@@ -80,6 +81,15 @@ class User extends Table {
             this.email = result[1];
             this.year = result[2];
             this.major = result[3];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchProjectIDs() {
+        try {
+            const postings = await Posting.getPostings(this.id);
+            return postings.map(posting => posting.projectID);
         } catch (error) {
             throw error;
         }
