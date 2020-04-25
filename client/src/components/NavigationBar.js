@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import AccountItem from './Account/AccountItem';
 
 const NavigationBar = () => (
   <Menu secondary>
@@ -25,7 +24,18 @@ const NavigationBar = () => (
       activeClassName="active"
     />
     <Menu.Menu position="right">
-      <AccountItem />
+      <Menu.Item
+        as={NavLink}
+        to="/login"
+        name="login"
+        activeClassName="active"
+      />
+      <Menu.Item
+        as={NavLink}
+        to="/sign_up"
+        name="sign up"
+        activeClassName="active"
+      />
     </Menu.Menu>
   </Menu>
 );
