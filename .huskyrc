@@ -1,5 +1,0 @@
-{
-  "hooks": {
-    "precommit": "cd client && npm run lint && cd ../backend && npm run lint"
-  }
-}

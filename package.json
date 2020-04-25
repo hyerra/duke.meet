@@ -1,4 +1,9 @@
 {
+  "husky": {
+    "hooks": {
+      "pre-commit": "cd client && npm run lint && cd ../backend && npm run lint"
+    }
+  },
   "devDependencies": {
     "husky": "^4.2.5"
   }
