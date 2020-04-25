@@ -38,8 +38,10 @@ class JobContent extends React.Component {
       return (
         <div>
           <Header>{ title }</Header>
-          <Label>{ description }</Label>
-          <Card.Group>
+          <br />
+          <Label >{ description }</Label>
+          <br /> <br />
+          <Card.Group centered>
             { this.state.jobs.map((job) => <JobCard job={job} />) }
           </Card.Group>
         </div>
