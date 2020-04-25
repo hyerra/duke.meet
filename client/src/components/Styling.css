@@ -33,6 +33,17 @@ body{
 .description{
     font-family: Copperplate;
 }
+
+.AboutDescription {
+    font-family: Copperplate;
+    font-size: 24px;
+    font-style: bold;
+}
+
+.MoreAbout {
+    font-family: Copperplate;
+    font-size: 18px;
+}
 #root {
     margin-top: 2rem;
   }
