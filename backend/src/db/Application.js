@@ -21,7 +21,7 @@ class Application extends Table {
     }
   }
 
-  static async getAllApplications(projectID) {
+  static async getAllApplicationsForProject(projectID) {
     const applications = [];
     try {
       const { session } = await client.getSession();

@@ -24,7 +24,7 @@ class JobContent extends React.Component {
         const projectResponse = await projectAPI.get('/', { params: { id: projectId } });
         const { id, title, description } = projectResponse.data;
         const project = new Project(id, title, description);
-        const jobResponse = await job.get('/', { params: { project_id: projectId } });
+        const jobResponse = await job.get('/project', { params: { project_id: projectId } });
         const jobs = jobResponse.data
           .map((jobData) => new Job(jobData.projectId, jobData.id, jobData.title, jobData.payment, jobData.timeCommitment));
         this.setState({ project, jobs });

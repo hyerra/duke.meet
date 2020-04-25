@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
   const {
     name, email, major, year, password,
   } = req.query;
-  if (!name && !email && !major && !year) return res.send({ error: 'Missing required fields.' });
+  if (!name || !email || !major || !year) return res.send({ error: 'Missing required fields.' });
 
   User.register(name, email, major, year, password)
     .then(() => res.send({ success: true }))

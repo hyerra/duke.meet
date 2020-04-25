@@ -37,6 +37,22 @@ class Job extends Table {
     }
   }
 
+  async fetchDetails() {
+    try {
+      const { session, table } = await Job.table();
+      const query = await table
+          .select()
+          .where(`id = ${SqlString.escape(this.id)}`)
+          .execute();
+      const result = await query.fetchOne();
+      session.close();
+      if (!result) throw new Error('No matching user with id.');
+      [this.projectID, , this.title, this.payment, this.timeCommitment] = result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getJobs(projectID) {
     const jobs = [];
     try {

@@ -13,17 +13,26 @@ router.post('/', (req, res) => {
     .catch((error) => res.send({ error: error.message }));
 });
 
-router.get('/', (req, res) => {
-  const { projectID } = req.query;
+router.get('/project', (req, res) => {
+  const { project_id: projectID } = req.query;
   if (!req.user) return res.send({ error: 'Not logged in.' });
+  if (!projectID) return res.send({ error: "Missing project_id" });
 
   req.user.fetchProjectIDs()
     .then((authorizedProjectIDs) => {
       if (!authorizedProjectIDs.includes(projectID)) return res.send({ error: 'User does not have access to project.' });
-      return Application.getAllApplications(projectID);
+      return Application.getAllApplicationsForProject(projectID);
     })
     .then((applications) => res.send(applications))
     .catch((error) => res.send({ error: error.message }));
+});
+
+router.get('/user', (req, res) => {
+    if (!req.user) return res.send({ error: 'Not logged in.' });
+
+    req.user.getAllApplications(req.user.id)
+        .then((applications) => res.send(applications))
+        .catch((error) => res.send({ error: error.message }));
 });
 
 module.exports = router;
