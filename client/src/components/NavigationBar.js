@@ -8,26 +8,31 @@ class NavigationBar extends React.Component {
 
     render() {
         return (
-            <Menu secondary>
-                <Menu.Item
-                    name='home'
-                    active={this.props.activeItem === 'home'}
-                    onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                    name='projects'
-                    active={this.props.activeItem === 'projects'}
-                    onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                    name='about'
-                    active={this.props.activeItem === 'about'}
-                    onClick={this.handleItemClick}
-                />
-                <Menu.Menu position='right'>
-                    <AccountItem />
-                </Menu.Menu>
-            </Menu>
+          <Menu secondary>
+            <Menu.Item
+              name="home"
+              active={this.props.activeItem === "home"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="projects"
+              active={this.props.activeItem === "projects"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="about"
+              active={this.props.activeItem === "about"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="jobs"
+              active={this.props.activeItem === "jobs"}
+              onClick={this.handleItemClick}
+            >Jobs (test)</Menu.Item>
+            <Menu.Menu position="right">
+              <AccountItem />
+            </Menu.Menu>
+          </Menu>
         );
     }
 }
