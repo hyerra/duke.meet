@@ -7,9 +7,9 @@ const ProjectCard = ({ project }) => (
     <Card.Content>
       <Card.Header>{project.title}</Card.Header>
       <Card.Description>{project.description}</Card.Description>
-      <Button style={{ width: '80%' }} animated>
-        <Button.Content visible>Apply</Button.Content>
-        <Button.Content hidden as={Link} to={`/projects/${project.id}`}>
+      <Button style={{ width: '80%' }} animated as={Link} to={`/projects/${project.id}`}>
+        <Button.Content visible>See Roles</Button.Content>
+        <Button.Content hidden>
           <Icon name="arrow right" />
         </Button.Content>
       </Button>
