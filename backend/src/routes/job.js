@@ -19,13 +19,23 @@ router.post('/', (req, res) => {
     .catch((error) => res.send({ error: error.message }));
 });
 
-router.get('/', (req, res) => {
+router.get('/project', (req, res) => {
   const { project_id: projectID } = req.query;
-  if (!projectID) return res.send({ error: 'Missing one of the required fields.' });
+  if (!projectID) return res.send({ error: 'Missing one of the required fields' });
 
   Job.getJobs(projectID)
-    .then((jobs) => res.send(jobs))
-    .catch((error) => res.send({ error: error.message }));
+      .then((jobs) => res.send(jobs))
+      .catch((error) => res.send({ error: error.message }));
+});
+
+router.get('/details', (req, res) => {
+  const { job_id: jobID } = req.query;
+  if (!jobID) return res.send({ error: 'Missing one of the required fields.' });
+
+  const job = Job(jobID);
+  Job.fetchDetails()
+      .then(() => res.send(job))
+      .catch((error) => res.send({ error: error.message }));
 });
 
 module.exports = router;

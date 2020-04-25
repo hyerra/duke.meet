@@ -93,6 +93,25 @@ class User extends Table {
     }
   }
 
+  async getAllApplications() {
+    const applications = [];
+    try {
+      const { session, table } = await Application.table();
+      const query = await table.select()
+          .where(`user_id = ${SqlString.escape(this.id)}`)
+          .execute();
+      const results = await query.toArray();
+      session.close();
+      if (!results) return applications;
+      results.forEach((application) => {
+        applications.push(new Application(application[0], application[1], application[2], application[3]));
+      });
+      return applications;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async serializeUser(user, done) {
     done(null, user.id);
   }
