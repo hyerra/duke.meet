@@ -58,4 +58,16 @@ router.get('/details', (req, res) => {
       .catch((error) => res.send({ error: error.message }));
 });
 
+router.get('/skills', (req, res) => {
+  const { job_id: jobID } = req.query;
+  if (!jobID) return res.send({ error: 'Missing one of the required fields.' })
+
+  JobRequires.fetchSkillsForJob(jobID)
+      .then(requirements => {
+        const skills = requirements.map(requirement => requirement.skillID);
+        return res.send(skills);
+      })
+      .catch((error) => res.send({ error: error.message }));
+});
+
 module.exports = router;
