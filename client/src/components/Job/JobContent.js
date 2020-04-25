@@ -15,35 +15,35 @@ class JobContent extends React.Component {
     state = { project: { title: '', description: '' }, jobs: [] };
 
     componentDidMount() {
-        this.fetchJobs();
+      this.fetchJobs();
     }
 
     async fetchJobs() {
-        try {
-            const projectId = this.props.match.params.id;
-            const projectResponse = await projectAPI.get('/', { params: { id: projectId } });
-            const { id, title, description } = projectResponse.data;
-            const project = new Project(id, title, description);
-            const jobResponse = await job.get('/', { params: { project_id: projectId } });
-            const jobs = jobResponse.data
-                .map(jobData => new Job(jobData.projectId, jobData.id, jobData.title, jobData.payment, jobData.timeCommitment));
-            this.setState({ project: project, jobs: jobs });
-        } catch (error) {
-            console.log(error);
-        }
+      try {
+        const { id: projectId } = this.props.match.params;
+        const projectResponse = await projectAPI.get('/', { params: { id: projectId } });
+        const { id, title, description } = projectResponse.data;
+        const project = new Project(id, title, description);
+        const jobResponse = await job.get('/', { params: { project_id: projectId } });
+        const jobs = jobResponse.data
+          .map((jobData) => new Job(jobData.projectId, jobData.id, jobData.title, jobData.payment, jobData.timeCommitment));
+        this.setState({ project, jobs });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     render() {
-        const { title, description } = this.state.project;
-        return (
-            <div>
-                <Header>{ title }</Header>
-                <Label>{ description }</Label>
-                <Card.Group>
-                    { this.state.jobs.map(job => <JobCard job={job} />) }
-                </Card.Group>
-            </div>
-        );
+      const { title, description } = this.state.project;
+      return (
+        <div>
+          <Header>{ title }</Header>
+          <Label>{ description }</Label>
+          <Card.Group>
+            { this.state.jobs.map((job) => <JobCard job={job} />) }
+          </Card.Group>
+        </div>
+      );
     }
 }
 
