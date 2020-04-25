@@ -3,14 +3,33 @@ import {Dropdown} from 'semantic-ui-react';
 
 
 const options = [
-    { key: 'Software Engineer (Full Stack)', text: 'Software Enginner (Full Stack)', value: 'Software Engineer (Full Stack)' },
-    { key: 'Back End Developer', text: 'Back End Developer', value: 'Back End Developer' },
-    { key: 'Lead Developer', text: 'Lead Developer', value: 'Lead Developer' },
-    { key: 'Front End', text: 'Front End', value: 'Front End' },
+    { key: 'SQL', text: 'SQL', value: 'SQL' },
+    { key: 'Java', text: 'Java', value: 'Java' },
+    { key: 'Python', text: 'Python', value: 'Python' },
+    { key: 'Web Development', text: 'Web Development', value: 'Web Development' },
+    { key: 'C', text: 'C', value: 'C' },
+    { key: 'C++', text: 'C++', value: 'C++' },
+    { key: 'C#', text: 'C#', value: 'C#' },
+    { key: 'React', text: 'React', value: 'React' },
+    { key: 'Node.js', text: 'Node.js', value: 'Node.js' },
+    { key: 'Objective-C', text: 'Objective-C', value: 'Objective-C' },
+    { key: 'UX Design', text: 'UX Design', value: 'UX Design' },
+    { key: 'HTML', text: 'HTML', value: 'HTML' },
+    { key: 'CSS', text: 'CSS', value: 'CSS' },
+    { key: 'Javascript', text: 'Javascript', value: 'Javascript' },
+    { key: 'PHP', text: 'PHP', value: 'PHP' },
+    { key: 'Perl', text: 'Perl', value: 'Perl' },
+    { key: 'XML', text: 'XML', value: 'XML' },
+    { key: 'Swift', text: 'Swift', value: 'Swift' },
+    { key: 'Android SDK', text: 'Android SDK', value: 'Android SDK' },
+    { key: 'Product Management', text: 'Product Management', value: 'Product Management' },
+    { key: 'Angular', text: 'Angular', value: 'Angular' },
+    { key: 'Flask', text: 'Flask', value: 'Flask' },
+    { key: 'Git', text: 'Git', value: 'Git' },
   ]
   
   const DropdownExampleMultipleSelection = () => (
-    <Dropdown placeholder='Job filtering options' fluid multiple selection options={options} />
+    <Dropdown placeholder='Filter by skills' fluid multiple selection options={options} />
   );
   
   export default DropdownExampleMultipleSelection;
