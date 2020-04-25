@@ -39,6 +39,34 @@ class JobRequires extends Table {
             throw error;
         }
     }
+
+    static async clearSkillsForJob(jobID) {
+        try {
+            const { session, table } = await Project.table();
+            await table
+                .delete()
+                .where(`job_id = ${SqlString.escape(jobID)}`)
+                .execute();
+            session.close();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async setSkillsForJob(requirements) {
+        try {
+            const { session, table } = await Project.table();
+            for (const requirement of requirements) {
+                await table
+                    .insert('job_id', 'skill_id')
+                    .values(requirement.jobID, requirement.skillID)
+                    .execute();
+            }
+            session.close();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = { JobRequires };

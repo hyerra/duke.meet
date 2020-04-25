@@ -1,5 +1,6 @@
 const express = require('express');
 const { Job } = require('../db/Job');
+const { JobRequires } = require('../db/JobRequires');
 
 const router = express.Router();
 
@@ -17,6 +18,25 @@ router.post('/', (req, res) => {
     })
     .then(() => res.send({ success: true }))
     .catch((error) => res.send({ error: error.message }));
+});
+
+router.post('/skills', (req, res) => {
+  const { skills, job_id: jobID } = req.query;
+  if (!req.user) return res.send({ error: 'Not logged in.' });
+  if (!skills || !jobID) return res.send({ error: 'Missing required fields.' });
+
+  const requirements = skills.map(skill => JobRequires(jobID, skill));
+
+  const job = new Job(jobID);
+  jobID.fetchDetails()
+      .then(() => req.user.fetchProjectIDs())
+      .then(authorizedProjectIDs => {
+        if (!authorizedProjectIDs.includes(job.projectID)) return res.send({ error: 'User does not have access to modify this job.' })
+        return JobRequires.clearSkillsForJob(jobID);
+      })
+      .then(() => JobRequires.setSkillsForJob(requirements))
+      .then(() => res.send({ success: true }))
+      .catch((error) => res.send({ error: error.message }));
 });
 
 router.get('/project', (req, res) => {
