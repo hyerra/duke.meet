@@ -3,6 +3,8 @@ import { Container } from 'semantic-ui-react';
 import NavigationBar from './NavigationBar';
 import MainContent from './MainContent';
 import ProjectContent from './ProjectContent';
+import Login from './Login';
+import Register from './Register';
 import './stylesheets/App.css';
 
 class App extends React.Component {
@@ -15,6 +17,10 @@ class App extends React.Component {
             return <MainContent />
         } else if (this.state.activeItem === 'projects') {
             return <ProjectContent />
+        } else if (this.state.activeItem === 'login') {
+            return <Login />
+        } else if (this.state.activeItem === 'sign up') {
+            return <Register />
         }
     }
 
