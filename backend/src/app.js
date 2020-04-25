@@ -4,6 +4,7 @@ const cors = require('cors');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const application = require('./routes/application');
 const job = require('./routes/job');
@@ -15,6 +16,8 @@ const { User } = require('./db/User');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 passport.use(strategy);
 
