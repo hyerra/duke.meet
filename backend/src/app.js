@@ -9,6 +9,7 @@ const path = require('path');
 const application = require('./routes/application');
 const job = require('./routes/job');
 const project = require('./routes/project');
+const skill = require('./routes/skill');
 const user = require('./routes/user');
 
 const strategy = require('./authentication/strategy');
@@ -43,6 +44,7 @@ app.use(cors());
 app.use('/api/application', application);
 app.use('/api/job', job);
 app.use('/api/project', project);
+app.use('/api/skill', skill);
 app.use('/api/user', user);
 app.post('/login', (req, res, next) => {
   passport.authenticate('local', (error, retrievedUser) => {
