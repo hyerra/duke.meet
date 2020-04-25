@@ -19,6 +19,7 @@ const options = [
     { key: 'Javascript', text: 'Javascript', value: 'Javascript' },
     { key: 'PHP', text: 'PHP', value: 'PHP' },
     { key: 'Perl', text: 'Perl', value: 'Perl' },
+    { key: 'Ruby', text: 'Ruby', value: 'Ruby' },
     { key: 'XML', text: 'XML', value: 'XML' },
     { key: 'Swift', text: 'Swift', value: 'Swift' },
     { key: 'Android SDK', text: 'Android SDK', value: 'Android SDK' },
