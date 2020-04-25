@@ -5,13 +5,14 @@ const { User } = require('./../db/User');
 const router = express.Router();
 
 router.post('/', (req, res) => {
+    const name = req.query.name;
     const email = req.query.email;
-    const year = req.query.year;
     const major = req.query.major;
+    const year = req.query.year;
     const password = req.query.password;
 
-    if (!email, !year, !major) return res.send({ error: 'Missing required fields.' });
-    User.register(email, year, major, password)
+    if (!name, !email, !major, !year) return res.send({ error: 'Missing required fields.' });
+    User.register(name, email, major, year, password)
         .then(() => res.send({ success: true }))
         .catch(error => res.send({ error: error.message }));
 });

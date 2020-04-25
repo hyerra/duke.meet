@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     const jobID = req.query.job_id;
-    if (!req.user.id) return res.send({ error: 'Not logged in.' });
-    if (!jobID) return res.send({ error: 'Missing job_id.' });
+    const applicationStatement = req.query.application_statement;
 
-    Application.apply(req.user.id, jobID)
+    if (!req.user.id) return res.send({ error: 'Not logged in.' });
+    if (!jobID, !applicationStatement) return res.send({ error: 'Missing required fields.' });
+
+    Application.apply(req.user.id, jobID, applicationStatement)
         .then(() => res.send({ success: true }))
         .catch(error => res.send({ error: error.message }));
 });

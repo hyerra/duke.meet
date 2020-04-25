@@ -20,13 +20,13 @@ class User extends Table {
         }
     }
 
-    static async register(email, year, major, password) {
+    static async register(name, email, major, year, password) {
         try {
             const { session , table } = await User.table();
             const hashedPassword = await bcrypt.hash(password, 10);
             const insertedRow = await table
-                .insert('email', 'year', 'major', 'hash_password')
-                .values(email, year, major, hashedPassword)
+                .insert('name', 'email', 'major','year', 'hash_password')
+                .values(name, email, major, year, hashedPassword)
                 .execute();
             const insertID = await insertedRow.getAutoIncrementValue();
             session.close();
