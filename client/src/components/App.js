@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { Container } from 'semantic-ui-react';
+import './App.css';
 import NavigationBar from './NavigationBar';
 import MainContent from './Home/MainContent';
 import ProjectContent from './Project/ProjectContent';
-import './App.css';
+import JobContent from './Job/JobContent';
 
 const App = props => {
     return (
@@ -14,7 +15,8 @@ const App = props => {
                     <NavigationBar />
                     <Switch>
                         <Route path='/' exact component={MainContent} />
-                        <Route path='/projects' component={ProjectContent} />
+                        <Route path='/projects' exact component={ProjectContent} />
+                        <Route path='/projects/:id' component={JobContent} />
                     </Switch>
                 </div>
             </Container>
