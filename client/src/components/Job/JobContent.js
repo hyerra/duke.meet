@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Card, Header, Label } from 'semantic-ui-react';
-import { JobCard } from './JobCard';
+import JobCard from './JobCard';
 import job from '../../api/job';
 import Job from '../../model/Job';
 

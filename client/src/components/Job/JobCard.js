@@ -1,5 +1,5 @@
-import {Card, Icon} from "semantic-ui-react";
-import React from "react";
+import {Card, Icon} from 'semantic-ui-react';
+import React from 'react';
 
 const JobCard = props => {
     return (

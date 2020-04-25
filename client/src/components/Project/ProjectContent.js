@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, Icon } from 'semantic-ui-react';
+import ProjectCard from './ProjectCard';
 import project from '../../api/project';
 import Project from '../../model/Project';
 
@@ -28,22 +29,5 @@ class ProjectContent extends React.Component {
         );
     }
 }
-
-const ProjectCard = props => {
-    return (
-        <Card>
-            <Card.Content>
-                <Card.Header>{props.project.title}</Card.Header>
-                <Card.Description>{props.project.description}</Card.Description>
-                <Button style={{width: '80%'}} animated>
-                    <Button.Content visible>Apply</Button.Content>
-                    <Button.Content hidden>
-                        <Icon name='arrow right' />
-                    </Button.Content>
-                </Button>
-            </Card.Content>
-        </Card>
-    );
-};
 
 export default ProjectContent;
