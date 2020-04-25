@@ -1,5 +1,5 @@
 import React from 'react';
-import '../About/AboutContent.css';
+import '../Styling.css';
 
 const MainContent = () => (
   <div style={{ marginTop: '15rem' }}>

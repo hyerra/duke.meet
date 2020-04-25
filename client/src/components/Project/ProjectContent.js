@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Button, Icon } from 'semantic-ui-react';
+import { Card, Header} from 'semantic-ui-react';
 import ProjectCard from './ProjectCard';
 import project from '../../api/project';
 import Project from '../../model/Project';
+import '../Styling.css';
+import Filter from './Filter.js';
 
 class ProjectContent extends React.Component {
     state = { projects: [] };
@@ -23,9 +25,17 @@ class ProjectContent extends React.Component {
 
     render() {
       return (
-        <Card.Group>
-          { this.state.projects.map((project) => <ProjectCard project={project} />) }
-        </Card.Group>
+        <div> 
+          <Header> Projects Posted </Header>
+          <br></br>
+          <br></br>
+          <Filter></Filter>
+          <br></br>
+          <br></br>
+          <Card.Group centered>
+            { this.state.projects.map((project) => <ProjectCard project={project} />) }
+          </Card.Group>
+        </div>
       );
     }
 }

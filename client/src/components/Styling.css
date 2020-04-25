@@ -21,6 +21,15 @@ body{
     color: #000080;
 }
 
+.ProjectHeader{
+    font-family: Copperplate, "Copperplate Gothic Light";
+    font-size: 45px;
+    font-style: bold;
+    font-variant: normal;
+    font-weight: 700;
+    color: #000080;
+}
+
 .description{
     font-family: Copperplate;
 }
