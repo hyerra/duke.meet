@@ -16,6 +16,7 @@ const Login = () => (
       <Form style={{ paddingTop: '2rem' }}>
         <Form.Input label="Email" type="email" placeholder="example@example.com" />
         <Form.Input label="Password" type="password" placeholder="*******" />
+        <br/><br/>
         <Form.Button>Login</Form.Button>
       </Form>
     </div>
