@@ -1,5 +1,5 @@
 import React from 'react';
-import './stylesheets/AboutContent.css'
+import './AboutContent.css'
 
 
 const AboutContent = props => {

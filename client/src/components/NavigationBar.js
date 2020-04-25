@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
-import AccountItem from './AccountItem';
+import AccountItem from './Account/AccountItem';
 
 class NavigationBar extends React.Component {
 

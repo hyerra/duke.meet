@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
 import NavigationBar from './NavigationBar';
-import MainContent from './MainContent';
-import ProjectContent from './ProjectContent';
-import JobContent from './JobContent';
-import './stylesheets/App.css';
+import MainContent from './Home/MainContent';
+import ProjectContent from './Project/ProjectContent';
+import JobContent from './Job/JobContent';
+import './App.css';
 
 class App extends React.Component {
     state = { activeItem: 'home' };
