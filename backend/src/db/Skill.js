@@ -21,7 +21,7 @@ class Skill extends Table {
     static async getAllSkills() {
         const skills = [];
         try {
-            const { session, table } = await Project.table();
+            const { session, table } = await Skill.table();
             const query = await table
                 .select()
                 .execute();
