@@ -7,11 +7,6 @@
     "start": "node src/app.js",
     "lint": "eslint \"**/*.js\" --ignore-path .eslintignore --fix"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint || exit 0"
-    }
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,7 +26,6 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "husky": "^4.2.5"
+    "eslint-plugin-import": "^2.20.2"
   }
 }
