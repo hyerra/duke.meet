@@ -1,39 +1,31 @@
 import React from 'react';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
+import './App.css';
 import NavigationBar from './NavigationBar';
-import MainContent from './MainContent';
-import ProjectContent from './ProjectContent';
-import Login from './Login';
-import Register from './Register';
-import './stylesheets/App.css';
+import MainContent from './Home/MainContent';
+import ProjectContent from './Project/ProjectContent';
+import JobContent from './Job/JobContent';
+import AboutContent from './About/AboutContent';
+import Login from './Login/Login';
+import Register from './Register/Register';
 
-class App extends React.Component {
-    state = { activeItem: 'home' };
-
-    updateActiveItem = item => this.setState({ activeItem: item });
-
-    renderMainPage() {
-        if (this.state.activeItem === 'home') {
-            return <MainContent />
-        } else if (this.state.activeItem === 'projects') {
-            return <ProjectContent />
-        } else if (this.state.activeItem === 'login') {
-            return <Login />
-        } else if (this.state.activeItem === 'sign up') {
-            return <Register />
-        }
-    }
-
-    render() {
-        return (
-            <Container>
-                <div className='main-content'>
-                    <NavigationBar activeItem={this.state.activeItem} updateItem={this.updateActiveItem}/>
-                    {this.renderMainPage()}
-                </div>
-            </Container>
-        );
-    }
-}
+const App = () => (
+  <Router>
+    <Container>
+      <div className="main-content">
+        <NavigationBar />
+        <Switch>
+          <Route path="/" exact component={MainContent} />
+          <Route path="/projects" exact component={ProjectContent} />
+          <Route path="/projects/:id" component={JobContent} />
+          <Route path="/about" component={AboutContent} />
+          <Route path="/login" component={Login} />
+          <Route path="/sign_up" component={Register} />
+        </Switch>
+      </div>
+    </Container>
+  </Router>
+);
 
 export default App;

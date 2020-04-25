@@ -1,40 +1,43 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import AccountItem from './AccountItem';
 
-class NavigationBar extends React.Component {
-
-    handleItemClick = (e, { name }) => this.props.updateItem(name);
-
-    render() {
-        return (
-            <Menu secondary>
-                <Menu.Item
-                    name='home'
-                    active={this.props.activeItem === 'home'}
-                    onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                    name='projects'
-                    active={this.props.activeItem === 'projects'}
-                    onClick={this.handleItemClick}
-                />
-                <Menu.Menu position='right'>
-                    {/* <AccountItem /> */}
-                    <Menu.Item
-                    name='login'
-                    active={this.props.activeItem === 'login'}
-                    onClick={this.handleItemClick}
-                />
-                    <Menu.Item
-                    name='sign up'
-                    active={this.props.activeItem === 'sign up'}
-                    onClick={this.handleItemClick}
-                />
-                </Menu.Menu>
-            </Menu>
-        );
-    }
-}
+const NavigationBar = () => (
+  <Menu secondary>
+    <Menu.Item
+      as={NavLink}
+      exact
+      to="/"
+      name="home"
+      activeClassName="active"
+    />
+    <Menu.Item
+      as={NavLink}
+      to="/projects"
+      name="projects"
+      activeClassName="active"
+    />
+    <Menu.Item
+      as={NavLink}
+      to="/about"
+      name="about"
+      activeClassName="active"
+    />
+    <Menu.Menu position="right">
+      <Menu.Item
+        as={NavLink}
+        to="/login"
+        name="login"
+        activeClassName="active"
+      />
+      <Menu.Item
+        as={NavLink}
+        to="/sign_up"
+        name="sign up"
+        activeClassName="active"
+      />
+    </Menu.Menu>
+  </Menu>
+);
 
 export default NavigationBar;
