@@ -25,9 +25,6 @@ class ProjectContent extends React.Component {
     render() {
       return (
         <div>
-          <Header> Projects Posted </Header>
-          <br />
-          <br />
           <Card.Group centered>
             { this.state.projects.map((project) => <ProjectCard project={project} />) }
           </Card.Group>

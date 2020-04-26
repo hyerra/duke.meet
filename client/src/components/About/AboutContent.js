@@ -7,7 +7,6 @@ const AboutContent = () => (
     <h1 className="AboutContent">About us</h1>
     <br />
     <p className="AboutDescription">
-      {' '}
       Our goal is to streamline the process of connecting top talent to
       innovative startups.
     </p>
