@@ -80,8 +80,8 @@ const Register = () => (
 
         </div>
         <br/><br/>
-        <Form.Select label="Skills" placeholder='Skills' fluid multiple search selection options={skillOptions} />
-        <br/><br/>
+        {/* <Form.Select label="Skills" placeholder='Skills' fluid multiple search selection options={skillOptions} />
+        <br/><br/> */}
         <Form.Button style={{ marginBottom: '4rem' }}>Sign Up</Form.Button>
 
       </Form>

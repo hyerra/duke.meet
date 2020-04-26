@@ -30,7 +30,7 @@ const options = [
 ];
 
 const DropdownExampleMultipleSelection = () => (
-  <Dropdown placeholder="Filter by skills" fluid multiple selection options={options} />
+  <Dropdown placeholder="Filter by skills" fluid multiple selection search options={options} />
 );
 
 export default DropdownExampleMultipleSelection;
