@@ -22,9 +22,10 @@ class Profile extends React.Component {
 
     <List>
         <List.Item> 
-            <Button content='Edit -project 1- 'size='tiny' primary  animated as={Link} 
+            <Button content='Edit *Project 1*' animated as={Link} 
             to={'/ProjectEdit'} /> 
-            <List.Item> <Button content = 'Add Project' secondary animated as={Link}
+            <br /> <br />
+            <List.Item> <Button content = 'Add Project' animated as={Link}
             to={'ProjectEdit'}/></List.Item>
         </List.Item>
     </List>  
@@ -32,9 +33,10 @@ class Profile extends React.Component {
     <Card fluid header='My Jobs' />
     <List>
         <List.Item> 
-            <Button content='Edit -job 1- 'size='tiny' primary  animated as={Link} 
+            <Button content='Edit -job 1- 'size='tiny' animated as={Link} 
             to={'/JobEdit'} /> 
-            <List.Item> <Button content = 'Add Job' secondary animated as={Link}
+            <br /> <br />
+            <List.Item> <Button content = 'Add Job' animated as={Link}
             to={'JobEdit'}/></List.Item>
         </List.Item>
     </List>

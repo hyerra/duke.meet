@@ -10,7 +10,7 @@ const ProjectEdit = () => (
         marginBottom: '5rem',
         marginLeft: '10rem',
         marginRight: '10rem',
-        textAlign: 'left'
+        textAlign: 'center'
       }}
     >
         <h1>Project Edit</h1>
