@@ -18,15 +18,14 @@ class ApplicationForm extends React.Component {
         return (
             <div>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                        <Form.Input
-                            placeholder='Tell us about yourself.'
-                            name='info'
-                            value={info}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Button content='Submit' />
-                    </Form.Group>
+                    <Form.TextArea
+                        placeholder='Tell us about yourself.'
+                        name='info'
+                        fluid
+                        value={info}
+                        onChange={this.handleChange}
+                    />
+                    <Form.Button content='Submit' />
                 </Form>
                 <strong>FORM:</strong>
                 <pre>{JSON.stringify({ info, submittedInfo }, null, 2)}</pre>
