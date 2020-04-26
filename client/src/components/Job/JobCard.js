@@ -1,6 +1,4 @@
-import {
-  Button, Card, Icon, Modal, ModalDescription, ModalContent, CardContent, CardHeader,
-} from 'semantic-ui-react';
+import { Card, Icon } from 'semantic-ui-react';
 import React from 'react';
 import ApplicationModal from '../Application/ApplicationModal';
 
@@ -24,14 +22,14 @@ const JobCard = ({ job, isLoggedIn, mayApply = false }) => (
 const JobTimeCommitment = ({ job }) => (
   <Card.Meta>
     <Icon name="clock" />
-    {job.timeCommitment}
+    {`${Math.round(job.timeCommitment)} hrs/week`}
   </Card.Meta>
 );
 
 const JobPayment = ({ job }) => (
   <Card.Meta>
     <Icon name="dollar sign" />
-    {job.payment}
+    {`${job.payment} compensation`}
   </Card.Meta>
 );
 

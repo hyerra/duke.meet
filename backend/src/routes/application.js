@@ -14,9 +14,11 @@ router.post('/', (req, res) => {
 });
 
 router.get('/project', (req, res) => {
-  const { project_id: projectID } = req.query;
+  let { project_id: projectID } = req.query;
   if (!req.user) return res.status(401).send({ error: 'Not logged in.' });
   if (!projectID) return res.status(400).send({ error: 'Missing project_id' });
+
+  projectID = parseInt(projectID);
 
   req.user.fetchProjectIDs()
     .then((authorizedProjectIDs) => {
@@ -24,7 +26,10 @@ router.get('/project', (req, res) => {
       return Application.getAllApplicationsForProject(projectID);
     })
     .then((applications) => res.send(applications))
-    .catch((error) => res.status(500).send({ error: error.message }));
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send({ error: error.message })
+    });
 });
 
 router.get('/user', (req, res) => {

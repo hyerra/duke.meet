@@ -24,15 +24,13 @@ class Application extends Table {
   static async getAllApplicationsForProject(projectID) {
     const applications = [];
     try {
-      const { session } = await client.getSession();
+      const { session } = await Application.table();
       const query = await session.sql(`SELECT Application.user_id, Application.job_id, Application.date, Application.application_statement FROM dukemeet.Application, dukemeet.Job WHERE Application.job_id = Job.id AND Job.project_id = ${SqlString.escape(projectID)};`)
         .execute();
       const results = await query.toArray();
       session.close();
       if (!results) return applications;
-      results.forEach((application) => {
-        applications.push(new Application(application[0], application[1], application[2], application[3]));
-      });
+      results.flat().forEach((application) => applications.push(new Application(application[0], application[1], application[2], application[3])));
       return applications;
     } catch (error) {
       throw error;

@@ -24,7 +24,7 @@ class ApplicationModal extends React.Component {
       const { job } = this.props;
       const { modalOpen, applicationStatement } = this.state;
       return (
-        <Modal trigger={<Button onClick={this.handleOpen}>Apply</Button>} open={modalOpen} onClose={this.handleClose}>
+        <Modal trigger={<Button onClick={this.handleOpen}>Apply</Button>} open={modalOpen} onClose={this.handleClose} closeIcon>
           <ModalContent>
             <JobCard job={job} />
           </ModalContent>
