@@ -11,11 +11,13 @@ const Login = () => (
       width: '100%',
     }}
   >
-    <div style={{ width: '30%', paddingTop: '4rem' }}>
+    <div style={{ width: '30%', paddingTop: '4rem' , textAlign: 'left'}}>
       <h1>Login</h1>
       <Form style={{ paddingTop: '2rem' }}>
         <Form.Input label="Email" type="email" placeholder="example@example.com" />
+        <br/>
         <Form.Input label="Password" type="password" placeholder="*******" />
+        <br/><br/>
         <Form.Button>Login</Form.Button>
       </Form>
     </div>
