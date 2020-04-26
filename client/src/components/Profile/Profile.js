@@ -93,9 +93,9 @@ const ProfileProjects = ({ projects }) => (
   <div>
     <Card fluid header="My Projects" />
     <Card.Group style={{ marginBottom: '1rem' }}>
-      {projects.map((project) => <ProjectManageCard project={project} as={Link} to={`/projectedit/${project.id}`} />)}
+      {projects.map((project) => <ProjectManageCard project={project} />)}
     </Card.Group>
-    <Button as={Link} to="ProjectEdit">Add Project</Button>
+      <ProjectEdit purpose="add" />
   </div>
 );
 

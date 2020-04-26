@@ -10,28 +10,36 @@ class ProjectEdit extends React.Component {
   handleClose = () => this.setState({ modalOpen: false });
 
   componentDidMount() {
-    const { title, description } = this.props.project;
-    this.setState({ title, description });
+    const { purpose } = this.props;
+    if (purpose === 'edit') {
+      const { title, description } = this.props.project;
+      this.setState({ title, description });
+    }
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   handleSubmit = () => {
     const { title, description } = this.state;
-    const { purpose, project } = this.props;
-    const { id } = project;
+    const { purpose } = this.props;
+    if (purpose === 'edit') {
+      const { project } = this.props;
+      const { id } = project;
+      projectAPI.put('/', { id, title, description } );
+    }
     if (purpose === 'add') projectAPI.post('/',  { title, description });
-    if (purpose === 'edit') projectAPI.put('/', { id, title, description } );
     this.handleClose();
   };
 
   render() {
     const { modalOpen, title, description } = this.state;
+    const { purpose } = this.props;
 
     return (
-        <Modal trigger={<Button onClick={this.handleOpen} style={{ marginBottom: '1rem' }} onClick={this.handleOpen}>Edit Project</Button>} open={modalOpen} onClose={this.handleClose} closeIcon>
-
-        <h1>Project Edit</h1>
+        <Modal trigger={<Button onClick={this.handleOpen} style={{ marginBottom: '1rem' }} onClick={this.handleOpen}>{purpose === 'edit' ? 'Edit' : 'Add'} Project</Button>} open={modalOpen} onClose={this.handleClose} closeIcon>
+          <ModalContent>
+            <h1>Project Edit</h1>
+          </ModalContent>
           <ModalContent>
         <Form onSubmit={this.handleSubmit}>
           <Form.Input
