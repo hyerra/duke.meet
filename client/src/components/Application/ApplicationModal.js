@@ -9,14 +9,16 @@ class ApplicationModal extends React.Component {
     state = { modalOpen: false, applicationStatement: '' };
 
     handleOpen = () => this.setState({ modalOpen: true });
-
     handleClose = () => this.setState({ modalOpen: false });
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
     handleSubmit = () => {
       const { applicationStatement } = this.state;
-      applicationAPI.post('/', { job_id: this.props.job.id, application_statement: applicationStatement });
+      applicationAPI.post('/', { job_id: this.props.job.id, application_statement: applicationStatement })
+          .then(response => console.log(response))
+          .catch(error => console.log(error));
+      this.handleClose();
     };
 
     render() {
@@ -36,7 +38,7 @@ class ApplicationModal extends React.Component {
                 value={applicationStatement}
                 onChange={this.handleChange}
               />
-              <Form.Button onClick={this.handleClose} content="Submit" />
+              <Form.Button content="Submit" />
             </Form>
           </ModalContent>
         </Modal>
