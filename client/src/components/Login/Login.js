@@ -28,7 +28,7 @@ class Login extends React.Component {
 
     render() {
       const { email, password, shouldRedirect } = this.state;
-      if (shouldRedirect) return <Redirect to="/" />;
+      if (shouldRedirect) return <Redirect to="/profile" />;
 
       return (
         <div
