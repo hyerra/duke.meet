@@ -1,20 +1,49 @@
 import React from 'react';
 import {List, Grid, Card, Button, GridColumn, CardGroup} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import Project from '../../model/Project';
+import ProjectCard from '../Project/ProjectCard';
+import appAPI from '../../api/application';
+import userAPI from '../../api/user';
+import User from '../../model/User';
 
 class Profile extends React.Component {
+    state = {projects:[], user:User};
+
+    componentDidMount() {
+        this.fetchUserProjects();
+    }
+
+    async fetchUserProjects() {
+
+        const {id: userId} = this.props.match.params;
+        const userResponse = await userAPI.get('/', {params: {id: userId}});
+
+        const {id, name, email, major, year, hash} = userResponse.data;
+        const user = new User(id,name,email,major,year,hash);
+
+        const appResponse = await appAPI.get('/user');
+
+        const userProjects = appResponse.data
+                .map((projectData) => new Project(projectData.id, projectData.title, projectData.description));
+
+        this.setState({ user:user, projects:userProjects});
+    }
+
     render() {
         return (
             <div>
-                <Card fluid header='Name' />
+                <pre>{JSON.stringify(this.state.user.major, null, 2)}</pre>
+
+                <Card fluid header={this.state.user.name || "user "+this.state.user.id} />
 
                 <br /><br />
 
-                <ProfileInfo/>
+                <ProfileInfo user={this.state.user}/>
 
                 <br /><br />
 
-                <ProfileProjects/>
+                <ProfileProjects projects={this.state.projects}/>
 
                 <ProfileJobs/>
             </div>
@@ -22,13 +51,13 @@ class Profile extends React.Component {
     }
 }
 
-const ProfileInfo = () => {
+const ProfileInfo = ({user}) => {
     return (
         <Card centered>
             <Card.Content>
-                <Card.Header>Major</Card.Header>
-                <Card.Meta>Email</Card.Meta>
-                <Card.Description>Year</Card.Description>
+                <Card.Header>{user.major || "No major"}</Card.Header>
+                <Card.Meta>{user.email || "No email"}</Card.Meta>
+                <Card.Description>{user.year | "Unspecified year"}</Card.Description>
             </Card.Content>
         </Card>
     );
@@ -39,15 +68,12 @@ const ProfileProjects = ({projects}) => {
         <div>
             <Card fluid header='My Projects' />
 
-            <List>
-                <List.Item>
-                    <CardGroup>
+            <Card.Group>
+                {projects.map((project) => <ProjectCard project={project} as={NavLink} to='/projectedit'/>)}
+            </Card.Group>
 
-                    </CardGroup>
-                    <List.Item> <Button content='Add Project' animated as={Link}
-                        to={'ProjectEdit'} /></List.Item>
-                </List.Item>
-            </List>
+            <Button content='Add Project' animated as={Link}
+                to={'ProjectEdit'} />
         </div>
     );
 }
