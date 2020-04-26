@@ -8,23 +8,23 @@ router.get('/', (req, res) => {
   if (!id) {
     Project.getAllProjects()
       .then((projects) => res.send(projects))
-      .catch((error) => res.send({ error: error.message }));
+      .catch((error) => res.status(500).send({ error: error.message }));
   } else {
     const project = new Project(id);
     project.fetchDetails()
       .then(() => res.send(project))
-      .catch((error) => res.send({ error: error.message }));
+      .catch((error) => res.status(500).send({ error: error.message }));
   }
 });
 
 router.post('/', (req, res) => {
   const { title, description } = req.query;
-  if (!req.user.id) return res.send({ error: 'Not logged in.' });
-  if (!title || !description) return res.send({ error: 'Missing required fields.' });
+  if (!req.user.id) return res.status(401).send({ error: 'Not logged in.' });
+  if (!title || !description) return res.status(400).send({ error: 'Missing required fields.' });
 
   Project.createProject(req.user.id, title, description)
     .then(() => res.send({ success: true }))
-    .catch((error) => res.send({ error: error.message }));
+    .catch((error) => res.status(500).send({ error: error.message }));
 });
 
 module.exports = router;
