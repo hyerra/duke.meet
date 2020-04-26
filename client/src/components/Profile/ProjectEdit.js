@@ -1,28 +1,62 @@
 import React from 'react';
 // import project from './../api/project';
-// import Project from './../model/Project';
-import {Form, Image} from 'semantic-ui-react';
+import Project from '../../model/Project';
+import {Form, Image, Button} from 'semantic-ui-react';
+import User from '../../model/User';
+import userAPI from '../../api/user';
 
-const ProjectEdit = () => (
-    <div
-      style={{
-        marginTop: '5rem',
-        marginBottom: '5rem',
-        marginLeft: '10rem',
-        marginRight: '10rem',
-        textAlign: 'center'
-      }}
-    >
+class ProjectEdit extends React.Component {
+  state={
+    projectName:'',
+    projectDescription:'',
+    submission:{
+      projectName: '',
+      projectDescription: '',
+    }
+  };
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+
+  handleSubmit = () => {
+    const { projectName, projectDescription } = this.state;
+    const submission = { projectName:projectName, projectDescription:projectDescription };
+    this.setState({ submission: submission });
+  }
+
+  render() {
+    const {projectName, projectDescription, submission} = this.state;
+
+    return (
+      <div>
         <h1>Project Edit</h1>
-        <Form style={{ paddingTop: '2rem' }}>
-          <Form.Input label="Project Name" type="text" placeholder="Project Name" />
-          <br/>
-          <Form.TextArea label="Description" type="text" placeholder="This is a description" />
-          <br/>
-          <Form.Button style={{ marginBottom: '4rem' }}>Finish</Form.Button>
+        
+        <Form onSubmit={this.handleSubmit} style={{ paddingTop: '2rem' }}>
+          <Form.Input 
+            label="Project Name"
+            placeholder="Project Name" 
+            value={projectName}
+            onChange={this.handleChange}
+          />
+
+          <Form.Input
+            label="Description" 
+            placeholder="This is a description" 
+            value={projectDescription}
+            onChange={this.handleChange}
+          />
+
+          <Button type='submit' style={{ marginBottom: '4rem' }}>Finish</Button>
         </Form>
+        <strong>FORM:</strong>
+        <pre>{JSON.stringify({ projectName, projectDescription }, null, 2)}</pre>
+        <strong>SUBMITTED:</strong>
+        <pre>{JSON.stringify(submission, null, 2)}</pre>
       </div>
-  );
+    );
+  }
+}
+
+
 
 export default ProjectEdit;
 
