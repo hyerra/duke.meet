@@ -16,18 +16,23 @@ class Profile extends React.Component {
 
     async fetchUserProjects() {
 
-        const {id: userId} = this.props.match.params;
-        const userResponse = await userAPI.get('/', {params: {id: userId}});
+        const projects = [
+            new Project(100,100,"h","h")
+        ];
+
+        const userResponse = await userAPI.get('/');
 
         const {id, name, email, major, year, hash} = userResponse.data;
         const user = new User(id,name,email,major,year,hash);
 
         const appResponse = await appAPI.get('/user');
 
-        const userProjects = appResponse.data
+        console.log(appResponse.data[0])
+
+        const userApps = appResponse.data
                 .map((projectData) => new Project(projectData.id, projectData.title, projectData.description));
 
-        this.setState({ user:user, projects:userProjects});
+        this.setState({ user:user, projects:projects});
     }
 
     render() {

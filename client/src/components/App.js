@@ -25,7 +25,7 @@ const App = () => (
           <Route path="/about" component={AboutContent} />
           <Route path="/login" component={Login} />
           <Route path="/sign_up" component={Register} />
-          <Route path="/profile/:id" component={Profile} />
+          <Route path="/profile" component={Profile} />
           <Route path='/jobedit' component={JobEdit} />
           <Route path='/projectedit' component={ProjectEdit} />
         </Switch>
