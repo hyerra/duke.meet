@@ -41,9 +41,9 @@ class Job extends Table {
     try {
       const { session, table } = await Job.table();
       const query = await table
-          .select()
-          .where(`id = ${SqlString.escape(this.id)}`)
-          .execute();
+        .select()
+        .where(`id = ${SqlString.escape(this.id)}`)
+        .execute();
       const result = await query.fetchOne();
       session.close();
       if (!result) throw new Error('No matching user with id.');

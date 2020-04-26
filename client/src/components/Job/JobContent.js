@@ -13,14 +13,16 @@ import Filter from './Filter';
  * <JobContent project_id: project_id/>
  */
 class JobContent extends React.Component {
-    state = { project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [] };
+    state = {
+      project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [],
+    };
 
     componentDidMount() {
       this.fetchJobs();
     }
 
     handleSkillsChanged = (event, { value }) => {
-        this.setState({ selectedSkills: value });
+      this.setState({ selectedSkills: value });
     };
 
     async fetchJobs() {
@@ -34,8 +36,8 @@ class JobContent extends React.Component {
           .map((jobData) => new Job(jobData.projectId, jobData.id, jobData.title, jobData.payment, jobData.timeCommitment));
         const skills = {};
         for (const job of jobs) {
-            const skillResponse = await jobAPI.get('/skills', { params: { job_id: job.id } });
-            skills[job.id] = skillResponse.data;
+          const skillResponse = await jobAPI.get('/skills', { params: { job_id: job.id } });
+          skills[job.id] = skillResponse.data;
         }
         this.setState({ project, jobs, skills });
       } catch (error) {
@@ -46,19 +48,19 @@ class JobContent extends React.Component {
     render() {
       const { title, description } = this.state.project;
       const matchingJobIDs = Object.keys(this.state.skills)
-          .filter(key => {
-              const value = this.state.skills[key];
-              return value.some(skill => this.state.selectedSkills.includes(skill));
-          })
-          .reduce((res, key) => key, []);
-      const matchingJobs = this.state.jobs.filter(job => matchingJobIDs.includes(job.id));
+        .filter((key) => {
+          const value = this.state.skills[key];
+          return value.some((skill) => this.state.selectedSkills.includes(skill));
+        })
+        .reduce((res, key) => key, []);
+      const matchingJobs = this.state.jobs.filter((job) => matchingJobIDs.includes(job.id));
       const jobs = this.state.selectedSkills.length === 0 ? this.state.jobs : matchingJobs;
-        return (
+      return (
         <div>
           <Header>{ title }</Header>
           <Label>{ description }</Label>
-            <Filter skillsChanged={this.handleSkillsChanged} />
-            <Card.Group>
+          <Filter skillsChanged={this.handleSkillsChanged} />
+          <Card.Group>
             { jobs.map((job) => <JobCard job={job} />) }
           </Card.Group>
         </div>

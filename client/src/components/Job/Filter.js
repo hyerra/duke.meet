@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import Skill  from '../../model/Skill'
-import skill  from '../../api/skill';
+import Skill from '../../model/Skill';
+import skill from '../../api/skill';
 
 class DropdownSkillsSelection extends React.Component {
   state = { skills: [] };
@@ -21,9 +21,9 @@ class DropdownSkillsSelection extends React.Component {
   }
 
   render() {
-    const options = this.state.skills.map(skill => { return { key: skill.id, text: skill.name, value: skill.id } });
-    return <Dropdown placeholder="Filter by skills" fluid multiple selection onChange={this.props.skillsChanged} options={options}/>
+    const options = this.state.skills.map((skill) => ({ key: skill.id, text: skill.name, value: skill.id }));
+    return <Dropdown placeholder="Filter by skills" fluid multiple selection onChange={this.props.skillsChanged} options={options} />;
   }
-};
+}
 
 export default DropdownSkillsSelection;

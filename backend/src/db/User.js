@@ -2,6 +2,7 @@ const SqlString = require('sqlstring');
 const bcrypt = require('bcrypt');
 const { client } = require('./db');
 const { Table } = require('./Table');
+const { Application } = require('./Application');
 const { Posting } = require('./Posting');
 
 class User extends Table {
@@ -98,8 +99,8 @@ class User extends Table {
     try {
       const { session, table } = await Application.table();
       const query = await table.select()
-          .where(`user_id = ${SqlString.escape(this.id)}`)
-          .execute();
+        .where(`user_id = ${SqlString.escape(this.id)}`)
+        .execute();
       const results = await query.toArray();
       session.close();
       if (!results) return applications;

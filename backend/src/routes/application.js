@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
 router.get('/project', (req, res) => {
   const { project_id: projectID } = req.query;
   if (!req.user) return res.send({ error: 'Not logged in.' });
-  if (!projectID) return res.send({ error: "Missing project_id" });
+  if (!projectID) return res.send({ error: 'Missing project_id' });
 
   req.user.fetchProjectIDs()
     .then((authorizedProjectIDs) => {
@@ -28,11 +28,11 @@ router.get('/project', (req, res) => {
 });
 
 router.get('/user', (req, res) => {
-    if (!req.user) return res.send({ error: 'Not logged in.' });
+  if (!req.user) return res.send({ error: 'Not logged in.' });
 
-    req.user.getAllApplications(req.user.id)
-        .then((applications) => res.send(applications))
-        .catch((error) => res.send({ error: error.message }));
+  req.user.getAllApplications(req.user.id)
+    .then((applications) => res.send(applications))
+    .catch((error) => res.send({ error: error.message }));
 });
 
 module.exports = router;

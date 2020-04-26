@@ -25,18 +25,18 @@ router.post('/skills', (req, res) => {
   if (!req.user) return res.send({ error: 'Not logged in.' });
   if (!skills || !jobID) return res.send({ error: 'Missing required fields.' });
 
-  const requirements = skills.map(skill => JobRequires(jobID, skill));
+  const requirements = skills.map((skill) => JobRequires(jobID, skill));
 
   const job = new Job(jobID);
   jobID.fetchDetails()
-      .then(() => req.user.fetchProjectIDs())
-      .then(authorizedProjectIDs => {
-        if (!authorizedProjectIDs.includes(job.projectID)) return res.send({ error: 'User does not have access to modify this job.' })
-        return JobRequires.clearSkillsForJob(jobID);
-      })
-      .then(() => JobRequires.setSkillsForJob(requirements))
-      .then(() => res.send({ success: true }))
-      .catch((error) => res.send({ error: error.message }));
+    .then(() => req.user.fetchProjectIDs())
+    .then((authorizedProjectIDs) => {
+      if (!authorizedProjectIDs.includes(job.projectID)) return res.send({ error: 'User does not have access to modify this job.' });
+      return JobRequires.clearSkillsForJob(jobID);
+    })
+    .then(() => JobRequires.setSkillsForJob(requirements))
+    .then(() => res.send({ success: true }))
+    .catch((error) => res.send({ error: error.message }));
 });
 
 router.get('/project', (req, res) => {
@@ -44,8 +44,8 @@ router.get('/project', (req, res) => {
   if (!projectID) return res.send({ error: 'Missing one of the required fields' });
 
   Job.getJobs(projectID)
-      .then((jobs) => res.send(jobs))
-      .catch((error) => res.send({ error: error.message }));
+    .then((jobs) => res.send(jobs))
+    .catch((error) => res.send({ error: error.message }));
 });
 
 router.get('/details', (req, res) => {
@@ -54,20 +54,20 @@ router.get('/details', (req, res) => {
 
   const job = Job(jobID);
   Job.fetchDetails()
-      .then(() => res.send(job))
-      .catch((error) => res.send({ error: error.message }));
+    .then(() => res.send(job))
+    .catch((error) => res.send({ error: error.message }));
 });
 
 router.get('/skills', (req, res) => {
   const { job_id: jobID } = req.query;
-  if (!jobID) return res.send({ error: 'Missing one of the required fields.' })
+  if (!jobID) return res.send({ error: 'Missing one of the required fields.' });
 
   JobRequires.fetchSkillsForJob(jobID)
-      .then(requirements => {
-        const skills = requirements.map(requirement => requirement.skillID);
-        return res.send(skills);
-      })
-      .catch((error) => res.send({ error: error.message }));
+    .then((requirements) => {
+      const skills = requirements.map((requirement) => requirement.skillID);
+      return res.send(skills);
+    })
+    .catch((error) => res.send({ error: error.message }));
 });
 
 module.exports = router;
