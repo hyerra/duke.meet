@@ -55,7 +55,7 @@ const Register = () => (
       width: '100%',
     }}
   >
-    <div style={{ width: '30%', paddingTop: '2rem' }}>
+    <div style={{ width: '30%', paddingTop: '2rem' , textAlign: 'left'}}>
       <h1>Sign Up</h1>
       <Form style={{ paddingTop: '2rem' }}>
         <Form.Input label="Name" type="text" placeholder="John Doe" />
