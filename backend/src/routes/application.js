@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
   const { job_id: jobID, application_statement: applicationStatement } = req.body;
-  if (!req.user.id) return res.status(401).send({ error: 'Not logged in.' });
+  if (!req.user) return res.status(401).send({ error: 'Not logged in.' });
   if (!jobID && !applicationStatement) return res.status(400).send({ error: 'Missing required fields.' });
 
   Application.apply(req.user.id, jobID, applicationStatement)
@@ -18,7 +18,7 @@ router.get('/project', (req, res) => {
   if (!req.user) return res.status(401).send({ error: 'Not logged in.' });
   if (!projectID) return res.status(400).send({ error: 'Missing project_id' });
 
-  projectID = parseInt(projectID);
+  projectID = parseInt(projectID, 10);
 
   req.user.fetchProjectIDs()
     .then((authorizedProjectIDs) => {
@@ -28,7 +28,7 @@ router.get('/project', (req, res) => {
     .then((applications) => res.send(applications))
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ error: error.message })
+      res.status(500).send({ error: error.message });
     });
 });
 

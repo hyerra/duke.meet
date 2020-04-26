@@ -41,11 +41,11 @@ class Project extends Table {
     try {
       const { session, table } = await Project.table();
       await table
-          .update()
-          .where(`id = ${SqlString.escape(this.id)}`)
-          .set('title', this.title)
-          .set('description', this.description)
-          .execute();
+        .update()
+        .where(`id = ${SqlString.escape(this.id)}`)
+        .set('title', this.title)
+        .set('description', this.description)
+        .execute();
       session.close();
     } catch (error) {
       throw error;
@@ -63,9 +63,9 @@ class Project extends Table {
         .execute();
       const insertID = insertedRow.getAutoIncrementValue();
       await postingTable
-          .insert('user_id', 'project_id', 'date')
-          .values(userID, insertID, new Date().toJSON().slice(0, 10))
-          .execute();
+        .insert('user_id', 'project_id', 'date')
+        .values(userID, insertID, new Date().toJSON().slice(0, 10))
+        .execute();
       await session.commit();
       session.close();
       return insertID;

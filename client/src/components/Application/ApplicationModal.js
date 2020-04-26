@@ -9,6 +9,7 @@ class ApplicationModal extends React.Component {
     state = { modalOpen: false, applicationStatement: '' };
 
     handleOpen = () => this.setState({ modalOpen: true });
+
     handleClose = () => this.setState({ modalOpen: false });
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });

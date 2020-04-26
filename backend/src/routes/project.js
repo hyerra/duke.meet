@@ -23,8 +23,8 @@ router.put('/', (req, res) => {
 
   const project = new Project(id, title, description);
   project.update()
-      .then(() => res.send({success: true}))
-      .catch(error => res.status(500).send({ error: error.message }));
+    .then(() => res.send({ success: true }))
+    .catch((error) => res.status(500).send({ error: error.message }));
 });
 
 router.post('/', (req, res) => {
