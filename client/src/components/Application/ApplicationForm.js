@@ -2,34 +2,36 @@ import React from 'react';
 import {Button, Form, Label} from 'semantic-ui-react';
 
 class ApplicationForm extends React.Component {
-    state = {info:'', submittedInfo:''}
+    state = { info:'', submittedInfo:''}
+
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
     handleSubmit = () => {
-        const info = this.state.info;
+        const { info } = this.state
 
-        this.setState({submittedInfo:info});
+        this.setState({ submittedInfo: info })
     }
 
-    handleChange = (e, {info})  => {
-        this.setState({info:info})
-    }
+    render() {
+        const { info, submittedInfo } = this.state
 
-    render() { 
-        const {info} = this.state;
         return (
             <div>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Input 
-                        label='Tell us about yourself' 
-                        name='application'
-                        value={info}
-                        placeholder=''
-                        onChange={this.handleChange}
-                    />
-                    <Button type='submit'>Submit</Button>
+                    <Form.Group>
+                        <Form.Input
+                            placeholder='Tell us about yourself.'
+                            name='info'
+                            value={info}
+                            onChange={this.handleChange}
+                        />
+                        <Form.Button content='Submit' />
+                    </Form.Group>
                 </Form>
+                <strong>FORM:</strong>
+                <pre>{JSON.stringify({ info, submittedInfo }, null, 2)}</pre>
             </div>
-        );
+        )
     }
 }
 
