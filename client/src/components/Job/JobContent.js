@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, Header, Label } from 'semantic-ui-react';
 import JobCard from './JobCard';
 import projectAPI from '../../api/project';
-import job from '../../api/job';
+import jobAPI from '../../api/job';
 import Project from '../../model/Project';
 import Job from '../../model/Job';
+import Filter from './Filter';
 
 /**
  * represents a job listing page for a given project ID.
@@ -12,11 +13,15 @@ import Job from '../../model/Job';
  * <JobContent project_id: project_id/>
  */
 class JobContent extends React.Component {
-    state = { project: { title: '', description: '' }, jobs: [] };
+    state = { project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [] };
 
     componentDidMount() {
       this.fetchJobs();
     }
+
+    handleSkillsChanged = (event, { value }) => {
+        this.setState({ selectedSkills: value });
+    };
 
     async fetchJobs() {
       try {
@@ -24,10 +29,15 @@ class JobContent extends React.Component {
         const projectResponse = await projectAPI.get('/', { params: { id: projectId } });
         const { id, title, description } = projectResponse.data;
         const project = new Project(id, title, description);
-        const jobResponse = await job.get('/project', { params: { project_id: projectId } });
+        const jobResponse = await jobAPI.get('/project', { params: { project_id: projectId } });
         const jobs = jobResponse.data
           .map((jobData) => new Job(jobData.projectId, jobData.id, jobData.title, jobData.payment, jobData.timeCommitment));
-        this.setState({ project, jobs });
+        const skills = {};
+        for (const job of jobs) {
+            const skillResponse = await jobAPI.get('/skills', { params: { job_id: job.id } });
+            skills[job.id] = skillResponse.data;
+        }
+        this.setState({ project, jobs, skills });
       } catch (error) {
         console.log(error);
       }
@@ -35,12 +45,21 @@ class JobContent extends React.Component {
 
     render() {
       const { title, description } = this.state.project;
-      return (
+      const matchingJobIDs = Object.keys(this.state.skills)
+          .filter(key => {
+              const value = this.state.skills[key];
+              return value.some(skill => this.state.selectedSkills.includes(skill));
+          })
+          .reduce((res, key) => key, []);
+      const matchingJobs = this.state.jobs.filter(job => matchingJobIDs.includes(job.id));
+      const jobs = this.state.selectedSkills.length === 0 ? this.state.jobs : matchingJobs;
+        return (
         <div>
           <Header>{ title }</Header>
           <Label>{ description }</Label>
-          <Card.Group>
-            { this.state.jobs.map((job) => <JobCard job={job} />) }
+            <Filter skillsChanged={this.handleSkillsChanged} />
+            <Card.Group>
+            { jobs.map((job) => <JobCard job={job} />) }
           </Card.Group>
         </div>
       );

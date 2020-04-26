@@ -4,7 +4,6 @@ import ProjectCard from './ProjectCard';
 import project from '../../api/project';
 import Project from '../../model/Project';
 import '../Styling.css';
-import Filter from './Filter.js';
 
 class ProjectContent extends React.Component {
     state = { projects: [] };
@@ -27,9 +26,6 @@ class ProjectContent extends React.Component {
       return (
         <div>
           <Header> Projects Posted </Header>
-          <br />
-          <br />
-          <Filter />
           <br />
           <br />
           <Card.Group centered>

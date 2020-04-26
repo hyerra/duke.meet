@@ -22,7 +22,7 @@ class JobRequires extends Table {
     static async fetchSkillsForJob(jobID) {
         const skills = [];
         try {
-            const { session, table } = await Project.table();
+            const { session, table } = await JobRequires.table();
             const query = await table
                 .select()
                 .where(`job_id = ${SqlString.escape(jobID)}`)
@@ -42,7 +42,7 @@ class JobRequires extends Table {
 
     static async clearSkillsForJob(jobID) {
         try {
-            const { session, table } = await Project.table();
+            const { session, table } = await JobRequires.table();
             await table
                 .delete()
                 .where(`job_id = ${SqlString.escape(jobID)}`)
@@ -55,7 +55,7 @@ class JobRequires extends Table {
 
     static async setSkillsForJob(requirements) {
         try {
-            const { session, table } = await Project.table();
+            const { session, table } = await JobRequires.table();
             for (const requirement of requirements) {
                 await table
                     .insert('job_id', 'skill_id')
