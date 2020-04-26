@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 
 const ProjectCard = ({ project, as, to }) => (
-  <Card as={as || ""} to={to || ""}>
+  <Card as={as || ''} to={to || ''}>
     <Card.Content>
       <Card.Header>{project.title}</Card.Header>
       <Card.Description>{project.description}</Card.Description>

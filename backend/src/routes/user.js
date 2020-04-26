@@ -17,8 +17,8 @@ router.post('/', (req, res) => {
 router.get('/projects', (req, res) => {
   if (!req.user) return res.status(401).send({ error: 'Not authenticated.' });
   req.user.fetchProjectIDs()
-      .then(projectIDs => res.send(projectIDs))
-      .catch(error => res.status(500).send({ error: error.message }))
+    .then((projectIDs) => res.send(projectIDs))
+    .catch((error) => res.status(500).send({ error: error.message }));
 });
 
 router.get('/', (req, res) => {
