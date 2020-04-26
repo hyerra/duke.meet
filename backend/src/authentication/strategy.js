@@ -8,7 +8,7 @@ const strategy = new LocalStrategy({ usernameField: 'email' }, async (email, pas
     const hashPassword = await user.fetchHashPassword();
     await user.fetchDetails();
     const match = await bcrypt.compare(password, hashPassword);
-    match ? done(null, user) : done(null, false);
+    match ? done(null, user) : done(new Error('No user'));
   } catch (error) {
     return done(error);
   }
