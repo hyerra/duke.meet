@@ -4,7 +4,7 @@ const { Application } = require('../db/Application');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  const { job_id: jobID, application_statement: applicationStatement } = req.query;
+  const { job_id: jobID, application_statement: applicationStatement } = req.body;
   if (!req.user.id) return res.status(401).send({ error: 'Not logged in.' });
   if (!jobID && !applicationStatement) return res.status(400).send({ error: 'Missing required fields.' });
 

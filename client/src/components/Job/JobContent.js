@@ -15,7 +15,7 @@ import Filter from './Filter';
  */
 class JobContent extends React.Component {
     state = {
-      project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [], isLoggedIn: false
+      project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [], isLoggedIn: false,
     };
 
     componentDidMount() {
@@ -28,12 +28,12 @@ class JobContent extends React.Component {
     };
 
     async checkLoggedIn() {
-        try {
-            await userAPI.get('/');
-            this.setState({ isLoggedIn: true });
-        } catch {
-            this.setState({ isLoggedIn: false });
-        }
+      try {
+        await userAPI.get('/');
+        this.setState({ isLoggedIn: true });
+      } catch {
+        this.setState({ isLoggedIn: false });
+      }
     }
 
     async fetchJobs() {

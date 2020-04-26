@@ -1,5 +1,5 @@
 import {
-  Button, Card, Icon, Modal, ModalDescription, ModalContent, CardContent, CardHeader
+  Button, Card, Icon, Modal, ModalDescription, ModalContent, CardContent, CardHeader,
 } from 'semantic-ui-react';
 import React from 'react';
 import ApplicationModal from '../Application/ApplicationModal';
