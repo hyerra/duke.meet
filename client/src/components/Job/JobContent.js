@@ -61,7 +61,7 @@ class JobContent extends React.Component {
           <Label>{ description }</Label>
           <Filter skillsChanged={this.handleSkillsChanged} />
           <Card.Group>
-            { jobs.map((job) => <JobCard job={job} mayApply={true}/>) }
+            { jobs.map((job) => <JobCard job={job} mayApply />) }
           </Card.Group>
         </div>
       );
