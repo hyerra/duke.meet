@@ -12,7 +12,7 @@ import Job from '../../model/Job';
  * <JobContent project_id: project_id/>
  */
 class JobContent extends React.Component {
-    state = { project: { title: '', description: '' }, jobs: [] };
+    state = { project: { title: '', description: '' }, jobs: []};
 
     componentDidMount() {
       this.fetchJobs();
@@ -40,7 +40,7 @@ class JobContent extends React.Component {
           <Header>{ title }</Header>
           <Label>{ description }</Label>
           <Card.Group>
-            { this.state.jobs.map((job) => <JobCard job={job} />) }
+            { this.state.jobs.map((job) => <JobCard job={job} mayApply={true}/>) }
           </Card.Group>
         </div>
       );
