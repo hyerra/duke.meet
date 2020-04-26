@@ -17,8 +17,18 @@ router.get('/', (req, res) => {
   }
 });
 
+router.put('/', (req, res) => {
+  const { id, title, description } = req.body;
+  if (!id || !title || !description) return res.status(400).send({ error: 'Missing required fields.' });
+
+  const project = new Project(id, title, description);
+  project.update()
+      .then(() => res.send({success: true}))
+      .catch(error => res.status(500).send({ error: error.message }));
+});
+
 router.post('/', (req, res) => {
-  const { title, description } = req.query;
+  const { title, description } = req.body;
   if (!req.user.id) return res.status(401).send({ error: 'Not logged in.' });
   if (!title || !description) return res.status(400).send({ error: 'Missing required fields.' });
 

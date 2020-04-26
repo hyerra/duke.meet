@@ -27,7 +27,6 @@ const App = () => (
           <Route path="/sign_up" component={Register} />
           <Route path="/profile" component={Profile} />
           <Route path="/jobedit" component={JobEdit} />
-          <Route path="/projectedit/:id" component={ProjectEdit} />
         </Switch>
       </div>
     </Container>

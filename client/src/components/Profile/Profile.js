@@ -9,6 +9,7 @@ import userAPI from '../../api/user';
 import projectAPI from '../../api/project';
 import Application from '../../model/Application';
 import User from '../../model/User';
+import ProjectEdit from "./ProjectEdit";
 
 class Profile extends React.Component {
     state = { projects: [], user: User, applications: [] };
@@ -59,7 +60,7 @@ class Profile extends React.Component {
           <ProfileProjects projects={projects} />
 
           <Card fluid header="My Applications" />
-          <Card.Group>
+          <Card.Group style={{ marginBottom: '1rem' }}>
             { applications.map((application) => <ApplicationCard shows='job' application={application} />) }
           </Card.Group>
         </div>
@@ -82,6 +83,7 @@ const ProjectManageCard = ({ project }) => (
         <Card.Content>
             <Card.Header>{project.title}</Card.Header>
             <Card.Description>{project.description}</Card.Description>
+            <ProjectEdit project={project} purpose="edit" />
             <ViewApplicationModal project={project} />
         </Card.Content>
     </Card>
@@ -90,7 +92,7 @@ const ProjectManageCard = ({ project }) => (
 const ProfileProjects = ({ projects }) => (
   <div>
     <Card fluid header="My Projects" />
-    <Card.Group>
+    <Card.Group style={{ marginBottom: '1rem' }}>
       {projects.map((project) => <ProjectManageCard project={project} as={Link} to={`/projectedit/${project.id}`} />)}
     </Card.Group>
     <Button as={Link} to="ProjectEdit">Add Project</Button>

@@ -1,95 +1,61 @@
 import React from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import {Form, Button, Modal, ModalContent} from 'semantic-ui-react';
 import projectAPI from '../../api/project';
 
 class ProjectEdit extends React.Component {
-  state={
-    projectName: '',
-    projectDescription: '',
-    submission: {
-      projectName: '',
-      projectDescription: '',
-    },
-  };
+
+  state = { modalOpen: false, title: '', description: '' };
+
+  handleOpen = () => this.setState({ modalOpen: true });
+  handleClose = () => this.setState({ modalOpen: false });
 
   componentDidMount() {
-    this.checkForExistingproject();
-  }
-
-  checkForExistingproject() {
-    const { id } = this.props.match.params;
-    if (id != undefined || id != null || id != '') {
-      const projectResponse = projectAPI.get('/', { params: { id } });
-      const { title, description } = projectResponse.data;
-      this.setState({ projectName: title, projectDescription: description });
-    }
+    const { title, description } = this.props.project;
+    this.setState({ title, description });
   }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   handleSubmit = () => {
-    const { projectName, projectDescription } = this.state;
-    const submission = { projectName, projectDescription };
-    this.setState({ submission });
-  }
+    const { title, description } = this.state;
+    const { purpose, project } = this.props;
+    const { id } = project;
+    if (purpose === 'add') projectAPI.post('/',  { title, description });
+    if (purpose === 'edit') projectAPI.put('/', { id, title, description } );
+    this.handleClose();
+  };
 
   render() {
-    const { projectName, projectDescription, submission } = this.state;
+    const { modalOpen, title, description } = this.state;
 
     return (
-      <div>
-        <h1>Project Edit</h1>
+        <Modal trigger={<Button onClick={this.handleOpen} style={{ marginBottom: '1rem' }} onClick={this.handleOpen}>Edit Project</Button>} open={modalOpen} onClose={this.handleClose} closeIcon>
 
+        <h1>Project Edit</h1>
+          <ModalContent>
         <Form onSubmit={this.handleSubmit}>
           <Form.Input
             label="Project Name"
             placeholder="Project Name"
-            name="projectName"
-            value={projectName}
+            name="title"
+            value={title}
             onChange={this.handleChange}
           />
 
           <Form.Input
             label="Description"
             placeholder="Description"
-            name="projectDescription"
-            value={projectDescription}
+            name="description"
+            value={description}
             onChange={this.handleChange}
           />
 
-          <Form.Group>
-            <Button content="save" type="submit" />
-          </Form.Group>
+          <Form.Button content="Save" />
         </Form>
-
-        <strong>FORM:</strong>
-        <pre>{JSON.stringify({ projectName, projectDescription }, null, 2)}</pre>
-        <strong>SUBMITTED:</strong>
-        <pre>{JSON.stringify(submission, null, 2)}</pre>
-      </div>
+          </ModalContent>
+        </Modal>
     );
   }
 }
 
 export default ProjectEdit;
-
-
-// <div>
-// <Label>
-//     <Icon name='p-name' /> Project Name
-// </Label>
-// <div class="ui input">
-//     <input type="text" placeholder="Enter..."/>
-// </div>
-// <Label>
-//     <Icon name='j-name' /> Description
-// </Label>
-// <div class="ui input">
-//     <input type="text" placeholder="Enter..."/>
-// </div>
-
-// <Label>
-//     <Icon name='jobs' /> Project Jobs
-// </Label>
-// needs to be made dynamic with a for loop
-// each should have a 3 buttons next to it

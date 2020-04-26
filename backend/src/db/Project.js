@@ -37,6 +37,21 @@ class Project extends Table {
     }
   }
 
+  async update() {
+    try {
+      const { session, table } = await Project.table();
+      await table
+          .update()
+          .where(`id = ${SqlString.escape(this.id)}`)
+          .set('title', this.title)
+          .set('description', this.description)
+          .execute();
+      session.close();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async createProject(userID, title, description) {
     try {
       const { session, table } = await Project.table();
