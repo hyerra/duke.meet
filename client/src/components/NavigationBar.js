@@ -36,6 +36,12 @@ const NavigationBar = () => (
         name="sign up"
         activeClassName="active"
       />
+        <Menu.Item
+            as={NavLink}
+            to="/profile"
+            name="profile"
+            activeClassName="active"
+        />
     </Menu.Menu>
   </Menu>
 );
