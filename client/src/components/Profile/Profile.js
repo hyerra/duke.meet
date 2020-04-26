@@ -6,7 +6,7 @@ class Profile extends React.Component {
         return (
     <div>
         <Card fluid header='Name' />
-        <Card>
+        <Card centered>
             <Card.Content>
                 <Card.Header>Name</Card.Header>
                 <Card.Meta>Co-Worker</Card.Meta>
