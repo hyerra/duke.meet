@@ -9,6 +9,7 @@ import JobContent from './Job/JobContent';
 import AboutContent from './About/AboutContent';
 import Login from './Login/Login';
 import Register from './Register/Register';
+import Profile from './Profile/Profile';
 
 const App = () => (
   <Router>
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/about" component={AboutContent} />
           <Route path="/login" component={Login} />
           <Route path="/sign_up" component={Register} />
+          <Route path="/profile" component={Profile} />
         </Switch>
       </div>
     </Container>
