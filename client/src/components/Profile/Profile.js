@@ -3,7 +3,7 @@ import {List, Grid, Card, Button, GridColumn, CardGroup} from 'semantic-ui-react
 import { Link, NavLink } from 'react-router-dom';
 import Project from '../../model/Project';
 import ProjectCard from '../Project/ProjectCard';
-import projectAPI from '../../api/project';
+import appAPI from '../../api/application';
 import userAPI from '../../api/user';
 import User from '../../model/User';
 
@@ -15,10 +15,6 @@ class Profile extends React.Component {
     }
 
     async fetchUserProjects() {
-        const projs = [
-            new Project(100,100,"1"),
-            new Project(200,200,"2"),
-        ];
 
         const {id: userId} = this.props.match.params;
         const userResponse = await userAPI.get('/', {params: {id: userId}});
@@ -26,9 +22,12 @@ class Profile extends React.Component {
         const {id, name, email, major, year, hash} = userResponse.data;
         const user = new User(id,name,email,major,year,hash);
 
-        
+        const appResponse = await appAPI.get('/user');
 
-        this.setState({ user:user, projects:projs, });
+        const userProjects = appResponse.data
+                .map((projectData) => new Project(projectData.id, projectData.title, projectData.description));
+
+        this.setState({ user:user, projects:userProjects});
     }
 
     render() {
