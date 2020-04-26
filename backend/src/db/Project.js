@@ -53,16 +53,24 @@ class Project extends Table {
   }
 
   static async createProject(userID, title, description) {
+    const { session, table } = await Project.table();
+    const postingTable = session.getSchema('dukemeet').getTable('Posting');
     try {
-      const { session, table } = await Project.table();
+      await session.startTransaction();
       const insertedRow = await table
         .insert('title', 'description')
         .values(title, description)
         .execute();
       const insertID = insertedRow.getAutoIncrementValue();
+      await postingTable
+          .insert('user_id', 'project_id', 'date')
+          .values(userID, insertID, new Date().toJSON().slice(0, 10))
+          .execute();
+      await session.commit();
       session.close();
       return insertID;
     } catch (error) {
+      session.rollback();
       throw error;
     }
   }

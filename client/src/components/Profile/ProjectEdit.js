@@ -21,13 +21,14 @@ class ProjectEdit extends React.Component {
 
   handleSubmit = () => {
     const { title, description } = this.state;
-    const { purpose } = this.props;
+    const { purpose, reloadHandler } = this.props;
     if (purpose === 'edit') {
       const { project } = this.props;
       const { id } = project;
       projectAPI.put('/', { id, title, description } );
     }
     if (purpose === 'add') projectAPI.post('/',  { title, description });
+    reloadHandler();
     this.handleClose();
   };
 

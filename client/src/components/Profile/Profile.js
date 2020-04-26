@@ -9,18 +9,29 @@ import userAPI from '../../api/user';
 import projectAPI from '../../api/project';
 import Application from '../../model/Application';
 import User from '../../model/User';
-import ProjectEdit from "./ProjectEdit";
+import ProjectEdit from './ProjectEdit';
 
 class Profile extends React.Component {
     state = { projects: [], user: User, applications: [] };
 
     componentDidMount() {
-      this.fetchUserInfo();
+      this.fetchUser();
+      this.fetchProjects();
+      this.fetchApplications();
     }
 
-    async fetchUserInfo() {
-      const userResponse = await userAPI.get('/');
+    fetchUser = async () => {
+        const userResponse = await userAPI.get('/');
+        const {
+            id, name, email, major, year,
+        } = userResponse.data;
+        const user = new User(id, name, email, major, year);
+        this.setState({ user });
+    };
+
+    fetchProjects = async () => {
       const projectIDResponse = await userAPI.get('/projects');
+      console.log(projectIDResponse);
 
       Promise.all(projectIDResponse.data.map((projectID) => projectAPI.get('/', { params: { id: projectID } })))
         .then((projectsResponse) => {
@@ -31,17 +42,14 @@ class Profile extends React.Component {
           this.setState({ projects });
         })
         .catch((error) => console.log(error));
+    };
 
-      const {
-        id, name, email, major, year,
-      } = userResponse.data;
-      const user = new User(id, name, email, major, year);
-
-      const appResponse = await appAPI.get('/user');
-      const applications = appResponse.data
-        .map((applicationData) => new Application(applicationData.userID, applicationData.jobID, new Date(applicationData.date), applicationData.applicationStatement));
-      this.setState({ user, applications });
-    }
+    fetchApplications = async () => {
+        const appResponse = await appAPI.get('/user');
+        const applications = appResponse.data
+            .map((applicationData) => new Application(applicationData.userID, applicationData.jobID, new Date(applicationData.date), applicationData.applicationStatement));
+        this.setState({ applications })
+    };
 
     render() {
       const { user, projects, applications } = this.state;
@@ -57,7 +65,7 @@ class Profile extends React.Component {
           <br />
           <br />
 
-          <ProfileProjects projects={projects} />
+          <ProfileProjects projects={projects} reloadHandler={this.fetchProjects} />
 
           <Card fluid header="My Applications" />
           <Card.Group style={{ marginBottom: '1rem' }}>
@@ -78,24 +86,24 @@ const ProfileInfo = ({ user }) => (
   </Card>
 );
 
-const ProjectManageCard = ({ project }) => (
+const ProjectManageCard = ({ project, reloadHandler }) => (
     <Card>
         <Card.Content>
             <Card.Header>{project.title}</Card.Header>
             <Card.Description>{project.description}</Card.Description>
-            <ProjectEdit project={project} purpose="edit" />
+            <ProjectEdit reloadHandler={reloadHandler} project={project} purpose="edit" />
             <ViewApplicationModal project={project} />
         </Card.Content>
     </Card>
 );
 
-const ProfileProjects = ({ projects }) => (
+const ProfileProjects = ({ projects, reloadHandler }) => (
   <div>
     <Card fluid header="My Projects" />
     <Card.Group style={{ marginBottom: '1rem' }}>
-      {projects.map((project) => <ProjectManageCard project={project} />)}
+      {projects.map((project) => <ProjectManageCard project={project} reloadHandler={reloadHandler} />)}
     </Card.Group>
-      <ProjectEdit purpose="add" />
+      <ProjectEdit reloadHandler={reloadHandler} purpose="add" />
   </div>
 );
 

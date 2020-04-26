@@ -29,7 +29,7 @@ router.put('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const { title, description } = req.body;
-  if (!req.user.id) return res.status(401).send({ error: 'Not logged in.' });
+  if (!req.user) return res.status(401).send({ error: 'Not logged in.' });
   if (!title || !description) return res.status(400).send({ error: 'Missing required fields.' });
 
   Project.createProject(req.user.id, title, description)
