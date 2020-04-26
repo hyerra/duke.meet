@@ -1,7 +1,5 @@
 import React from 'react';
-import project from './../api/project';
-import Project from './../model/Project';
-import {Label,Icon} from 'semantic-ui';
+import {Label,Icon, List} from 'semantic-ui-react';
 
 
 class ProjectEdit extends React.Component {

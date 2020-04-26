@@ -1,47 +1,43 @@
 import React from 'react';
-import {Label, Icon, List, Card} from 'semantic-ui-react';
+import {List, Card, Button} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class Profile extends React.Component {
     render() {
         return (
     <div>
         <Card fluid header='Name' />
+        <br /><br />
         <Card centered>
             <Card.Content>
-                <Card.Header>Name</Card.Header>
-                <Card.Meta>Co-Worker</Card.Meta>
+                <Card.Header>Major</Card.Header>
+                <Card.Meta>Email</Card.Meta>
                 <Card.Description>
-                    Matthew is a pianist living in Nashville.
+                    Year
                 </Card.Description>
             </Card.Content>
         </Card>
-    <Label>
-        <Icon name='email' /> Email
-    </Label>
-    <Label>
-        <Icon name='year' /> Year
-    </Label>
-    <Label>
-       <Icon name='major' /> Major
-    </Label>
+        <br /><br />
+        <Card fluid header='My Projects' />
 
-    <Label>
-        <Icon name='projects' /> My Projects
-    </Label>
     <List>
-        <List.Item>Apples</List.Item>
-        <List.Item>Pears</List.Item>
-        <List.Item>Oranges</List.Item>
+        <List.Item> 
+            <Button content='Edit -project 1- 'size='tiny' primary  animated as={Link} 
+            to={'/ProjectEdit'} /> 
+            <List.Item> <Button content = 'Add Project' secondary animated as={Link}
+            to={'ProjectEdit'}/></List.Item>
+        </List.Item>
     </List>  
 
-    <Label>
-        <Icon name='jobs' /> Jobs Applied To
-    </Label> 
+    <Card fluid header='My Jobs' />
     <List>
-        <List.Item>Apples</List.Item>
-        <List.Item>Pears</List.Item>
-        <List.Item>Oranges</List.Item>
-    </List>  
+        <List.Item> 
+            <Button content='Edit -job 1- 'size='tiny' primary  animated as={Link} 
+            to={'/JobEdit'} /> 
+            <List.Item> <Button content = 'Add Job' secondary animated as={Link}
+            to={'JobEdit'}/></List.Item>
+        </List.Item>
+    </List>
     </div>
         );
     }
