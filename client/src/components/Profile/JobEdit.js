@@ -73,10 +73,12 @@ class JobEdit extends React.Component {
                         <Button content='save' type='submit'/>
                     </Form.Group>
                 </Form>
-                <strong>FORM:</strong>
-                <pre>{JSON.stringify({ projectName, jobName, payment, timeCommitment }, null, 2)}</pre>
-                <strong>SUBMITTED:</strong>
-                <pre>{JSON.stringify( submission , null, 2)}</pre>
+                <div style={{textAlign: "left"}}>
+                    <strong>FORM:</strong>
+                    <pre>{JSON.stringify({ projectName, jobName, payment, timeCommitment }, null, 2)}</pre>
+                    <strong>SUBMITTED:</strong>
+                    <pre>{JSON.stringify( submission , null, 2)}</pre>
+                </div>
             </div>
         );
     }
