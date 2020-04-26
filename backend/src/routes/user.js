@@ -14,6 +14,13 @@ router.post('/', (req, res) => {
     .catch((error) => res.status(401).send({ error: error.message }));
 });
 
+router.get('/projects', (req, res) => {
+  if (!req.user) return res.status(401).send({ error: 'Not authenticated.' });
+  req.user.fetchProjectIDs()
+      .then(projectIDs => res.send(projectIDs))
+      .catch(error => res.status(500).send({ error: error.message }))
+});
+
 router.get('/', (req, res) => {
   const { id } = req.query;
 
@@ -23,7 +30,7 @@ router.get('/', (req, res) => {
       .then(() => res.send(user))
       .catch((error) => res.send({ error: error.message }));
   } else {
-    if (!req.user) return res.status(400).send({ error: 'Missing id or email.' });
+    if (!req.user) return res.status(401).send({ error: 'Not authenticated.' });
     return res.send(req.user);
   }
 });
