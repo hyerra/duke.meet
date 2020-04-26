@@ -10,7 +10,7 @@ import Application from '../../model/Application';
 import User from '../../model/User';
 
 class Profile extends React.Component {
-    state = {projects: [], user: User, applications: [] };
+    state = { projects: [], user: User, applications: [] };
 
     componentDidMount() {
         this.fetchUserProjects();
