@@ -1,9 +1,6 @@
 import React from 'react';
-// import project from './../api/project';
-import Project from '../../model/Project';
-import {Form, Image, Button} from 'semantic-ui-react';
-import User from '../../model/User';
-import userAPI from '../../api/user';
+import {Form, Button} from 'semantic-ui-react';
+import projectAPI from '../../api/project';
 
 class ProjectEdit extends React.Component {
   state={
@@ -14,6 +11,19 @@ class ProjectEdit extends React.Component {
       projectDescription: '',
     }
   };
+
+  componentDidMount() {
+    this.checkForExistingproject();
+  }
+
+  checkForExistingproject() {
+    const {id} = this.props.match.params;
+    if (id!=undefined || id!=null || id!='') {
+      const projectResponse = projectAPI.get('/', {params: {id:id}});
+      const {title, description} = projectResponse.data;
+      this.setState({projectName:title, projectDescription:description});
+    }
+  }
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
@@ -29,24 +39,29 @@ class ProjectEdit extends React.Component {
     return (
       <div>
         <h1>Project Edit</h1>
-        
-        <Form onSubmit={this.handleSubmit} style={{ paddingTop: '2rem' }}>
-          <Form.Input 
-            label="Project Name"
-            placeholder="Project Name" 
+
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Input
+            label='Project Name'
+            placeholder='Project Name'
+            name='projectName'
             value={projectName}
             onChange={this.handleChange}
           />
 
           <Form.Input
-            label="Description" 
-            placeholder="This is a description" 
+            label='Description'
+            placeholder='Description'
+            name='projectDescription'
             value={projectDescription}
             onChange={this.handleChange}
           />
 
-          <Button type='submit' style={{ marginBottom: '4rem' }}>Finish</Button>
+          <Form.Group>
+            <Button content='save' type='submit' />
+          </Form.Group>
         </Form>
+
         <strong>FORM:</strong>
         <pre>{JSON.stringify({ projectName, projectDescription }, null, 2)}</pre>
         <strong>SUBMITTED:</strong>
@@ -55,8 +70,6 @@ class ProjectEdit extends React.Component {
     );
   }
 }
-
-
 
 export default ProjectEdit;
 

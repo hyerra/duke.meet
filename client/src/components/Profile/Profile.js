@@ -74,7 +74,7 @@ const ProfileProjects = ({projects}) => {
             <Card fluid header='My Projects' />
 
             <Card.Group>
-                {projects.map((project) => <ProjectCard project={project} as={NavLink} to='/projectedit'/>)}
+                {projects.map((project) => <ProjectCard project={project} as={NavLink} to={'/projectedit/'+project.id}/>)}
             </Card.Group>
 
             <Button content='Add Project' animated as={Link}
