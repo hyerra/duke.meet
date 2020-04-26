@@ -12,7 +12,8 @@ class Login extends React.Component {
     handleSubmit = () => {
         const { email, password } = this.state;
         const request = userAPI.post('/login', { email, password })
-            .then(() => {console.log('Success');
+            .then(() => {
+                console.log('Success');
                 this.setState({ shouldRedirect: true })})
             .catch(error => {
                 console.log(error);

@@ -48,7 +48,7 @@ app.use('/api/skill', skill);
 app.use('/api/user', user);
 app.post('/api/user/login', (req, res, next) => {
   passport.authenticate('local', (error, retrievedUser) => {
-    req.logIn(user, (loginError) => {
+    req.logIn(retrievedUser, (loginError) => {
       if (error) return res.send({ error: error.message });
       if (loginError) return res.send({ error: error.message });
       if (!retrievedUser) return res.send({ error: 'Wrong username or password.' });
