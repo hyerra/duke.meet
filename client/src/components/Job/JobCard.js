@@ -4,9 +4,7 @@ import {
 import React from 'react';
 import ApplicationModal from '../Application/ApplicationModal';
 
-const isLoggedIn = true;
-
-const JobCard = ({ job, mayApply = false }) => (
+const JobCard = ({ job, isLoggedIn, mayApply = false }) => (
   <Card>
     <Card.Content>
       <Card.Header>{job.title}</Card.Header>

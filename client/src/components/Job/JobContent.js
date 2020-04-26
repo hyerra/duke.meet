@@ -3,6 +3,7 @@ import { Card, Header, Label } from 'semantic-ui-react';
 import JobCard from './JobCard';
 import projectAPI from '../../api/project';
 import jobAPI from '../../api/job';
+import userAPI from '../../api/user';
 import Project from '../../model/Project';
 import Job from '../../model/Job';
 import Filter from './Filter';
@@ -14,16 +15,26 @@ import Filter from './Filter';
  */
 class JobContent extends React.Component {
     state = {
-      project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [],
+      project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [], isLoggedIn: false,
     };
 
     componentDidMount() {
       this.fetchJobs();
+      this.checkLoggedIn();
     }
 
     handleSkillsChanged = (event, { value }) => {
       this.setState({ selectedSkills: value });
     };
+
+    async checkLoggedIn() {
+      try {
+        await userAPI.get('/');
+        this.setState({ isLoggedIn: true });
+      } catch {
+        this.setState({ isLoggedIn: false });
+      }
+    }
 
     async fetchJobs() {
       try {
@@ -61,7 +72,7 @@ class JobContent extends React.Component {
           <Label>{ description }</Label>
           <Filter skillsChanged={this.handleSkillsChanged} />
           <Card.Group>
-            { jobs.map((job) => <JobCard job={job} mayApply />) }
+            { jobs.map((job) => <JobCard job={job} mayApply isLoggedIn={this.state.isLoggedIn} />) }
           </Card.Group>
         </div>
       );

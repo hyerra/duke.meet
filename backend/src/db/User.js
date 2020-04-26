@@ -114,6 +114,7 @@ class User extends Table {
   }
 
   static async serializeUser(user, done) {
+    if (!user) return done(Error('No user'), null);
     done(null, user.id);
   }
 
