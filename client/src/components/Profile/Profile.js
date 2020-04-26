@@ -1,8 +1,24 @@
 import React from 'react';
 import {List, Grid, Card, Button, GridColumn, CardGroup} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import Project from '../../model/Project';
+import ProjectCard from '../Project/ProjectCard';
 
 class Profile extends React.Component {
+    state = {projects:[]};
+
+    componentDidMount() {
+        this.fetchUserProjects();
+    }
+
+    fetchUserProjects() {
+        const projects = [
+            new Project(100,100,"1"),
+            new Project(200,200,"2"),
+        ];
+        this.setState({projects:projects});
+    }
+
     render() {
         return (
             <div>
@@ -14,7 +30,7 @@ class Profile extends React.Component {
 
                 <br /><br />
 
-                <ProfileProjects/>
+                <ProfileProjects projects={this.state.projects}/>
 
                 <ProfileJobs/>
             </div>
@@ -39,15 +55,12 @@ const ProfileProjects = ({projects}) => {
         <div>
             <Card fluid header='My Projects' />
 
-            <List>
-                <List.Item>
-                    <CardGroup>
+            <Card.Group>
+                {projects.map((project) => <ProjectCard project={project}/>)}
+            </Card.Group>
 
-                    </CardGroup>
-                    <List.Item> <Button content='Add Project' animated as={Link}
-                        to={'ProjectEdit'} /></List.Item>
-                </List.Item>
-            </List>
+            <Button content='Add Project' animated as={Link}
+                to={'ProjectEdit'} />
         </div>
     );
 }
