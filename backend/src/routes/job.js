@@ -52,8 +52,8 @@ router.get('/details', (req, res) => {
   const { job_id: jobID } = req.query;
   if (!jobID) return res.status(400).send({ error: 'Missing one of the required fields.' });
 
-  const job = Job(jobID);
-  Job.fetchDetails()
+  const job = new Job(jobID);
+  job.fetchDetails()
     .then(() => res.send(job))
     .catch((error) => res.status(500).send({ error: error.message }));
 });

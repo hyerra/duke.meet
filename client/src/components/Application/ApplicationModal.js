@@ -16,8 +16,6 @@ class ApplicationModal extends React.Component {
     handleSubmit = () => {
       const { applicationStatement } = this.state;
       applicationAPI.post('/', { job_id: this.props.job.id, application_statement: applicationStatement })
-          .then(response => console.log(response))
-          .catch(error => console.log(error));
       this.handleClose();
     };
 

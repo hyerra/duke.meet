@@ -5,10 +5,12 @@ import Project from '../../model/Project';
 import ProjectCard from '../Project/ProjectCard';
 import appAPI from '../../api/application';
 import userAPI from '../../api/user';
+import jobAPI from '../../api/job';
+import Application from '../../model/Application';
 import User from '../../model/User';
 
 class Profile extends React.Component {
-    state = {projects:[], user:User};
+    state = { projects: [], user: User, applications: [] };
 
     componentDidMount() {
         this.fetchUserProjects();
@@ -22,41 +24,43 @@ class Profile extends React.Component {
 
         const userResponse = await userAPI.get('/');
 
-        const {id, name, email, major, year, hash} = userResponse.data;
+        const { id, name, email, major, year, hash } = userResponse.data;
         const user = new User(id,name,email,major,year,hash);
 
         const appResponse = await appAPI.get('/user');
-
-        console.log(appResponse.data[0])
-
-        const userApps = appResponse.data
-                .map((projectData) => new Project(projectData.id, projectData.title, projectData.description));
-
-        this.setState({ user:user, projects:projects});
+        const applications = appResponse.data
+                .map((applicationData) => new Application(applicationData.userID, applicationData.jobID, new Date(applicationData.date), applicationData.applicationStatement));
+        this.setState({ user, projects, applications });
     }
 
     render() {
+        const { user, projects, applications } = this.state;
         return (
             <div>
-                <pre>{JSON.stringify(this.state.user.major, null, 2)}</pre>
+                <pre>{JSON.stringify(user.major, null, 2)}</pre>
 
-                <Card fluid header={this.state.user.name || "user "+this.state.user.id} />
-
-                <br /><br />
-
-                <ProfileInfo user={this.state.user}/>
+                <Card fluid header={user.name || "user " + user.id} />
 
                 <br /><br />
 
-                <ProfileProjects projects={this.state.projects}/>
+                <ProfileInfo user={user}/>
 
-                <ProfileJobs/>
+                <br /><br />
+
+                <ProfileProjects projects={projects}/>
+
+                <Card fluid header='My Applications' />
+                <Card.Group>
+                {
+                    applications.map(application => <ProfileApplication application={application} />)
+                }
+                </Card.Group>
             </div>
         );
     }
 }
 
-const ProfileInfo = ({user}) => {
+const ProfileInfo = ({ user }) => {
     return (
         <Card centered>
             <Card.Content>
@@ -68,7 +72,7 @@ const ProfileInfo = ({user}) => {
     );
 }
 
-const ProfileProjects = ({projects}) => {
+const ProfileProjects = ({ projects }) => {
     return (
         <div>
             <Card fluid header='My Projects' />
@@ -81,24 +85,35 @@ const ProfileProjects = ({projects}) => {
                 to={'ProjectEdit'} />
         </div>
     );
-}
+};
 
-const ProfileJobs = () => {
-    return (
-        <div>
-            <Card fluid header='My Jobs' />
+class ProfileApplication extends React.Component {
+    state = { jobTitle: '' };
 
-            <List>
-                <List.Item>
-                    <Button content='Edit -job 1- ' size='tiny' animated as={Link}
-                        to={'/JobEdit'} />
-                    <br /> <br />
-                    <List.Item> <Button content='Add Job' animated as={Link}
-                        to={'JobEdit'} /></List.Item>
-                </List.Item>
-            </List>
-        </div>
-    );
-}
+    componentDidMount() {
+        this.fetchJob();
+    }
+
+    async fetchJob() {
+        try {
+            const { jobID } = this.props.application;
+            const jobResponse = await jobAPI.get('/details', { params: { job_id: jobID } });
+            this.setState({ jobTitle: jobResponse.data.title });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    render() {
+        const { date, applicationStatement } = this.props.application;
+        return (
+            <Card
+                header={this.state.jobTitle}
+                meta={`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`}
+                description={applicationStatement}
+            />
+        );
+    }
+};
 
 export default Profile;

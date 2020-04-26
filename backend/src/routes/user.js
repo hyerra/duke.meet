@@ -23,8 +23,8 @@ router.get('/', (req, res) => {
       .then(() => res.send(user))
       .catch((error) => res.send({ error: error.message }));
   } else {
-    if (req.user) res.send(req.user);
-    res.status(400).send({ error: 'Missing id or email.' });
+    if (!req.user) return res.status(400).send({ error: 'Missing id or email.' });
+    return res.send(req.user);
   }
 });
 
