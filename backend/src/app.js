@@ -46,7 +46,7 @@ app.use('/api/job', job);
 app.use('/api/project', project);
 app.use('/api/skill', skill);
 app.use('/api/user', user);
-app.post('/login', (req, res, next) => {
+app.post('/api/user/login', (req, res, next) => {
   passport.authenticate('local', (error, retrievedUser) => {
     req.logIn(user, (loginError) => {
       if (error) return res.send({ error: error.message });

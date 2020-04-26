@@ -10,16 +10,10 @@ class Register extends React.Component {
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
   handleSubmit = () => {
-    console.log('hi');
     const { name, email, password, year, major } = this.state;
     userAPI.post('/', { name, email, password, year, major })
-        .then(() => {
-          this.setState({ shouldRedirect: true });
-        })
-        .catch(error => {
-          console.log(error);
-          this.setState({ error: true })
-        });
+        .then(() => this.setState({ shouldRedirect: true }))
+        .catch(() => this.setState({ error: true }));
   };
 
   render() {
@@ -55,7 +49,7 @@ class Register extends React.Component {
           <Message
               error
               header='Incorrect Credentials'
-              content='Please make sure you have not signed up with the same email twice and you have the correct username and password.'
+              content='Please make sure you have not signed up with the same email twice.'
           />
           <Form.Button style={{ marginBottom: '4rem' }}>Sign Up</Form.Button>
         </Form>
