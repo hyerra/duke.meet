@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Message} from 'semantic-ui-react';
+import { Card, Message } from 'semantic-ui-react';
 import Project from '../../model/Project';
 import ViewApplicationModal from '../Project/ViewApplicationModal';
 import ApplicationCard from '../Application/ApplicationCard';
@@ -64,33 +64,41 @@ class Profile extends React.Component {
           <br />
           <br />
 
-            <Card fluid header="My Projects" />
-            {
-                projects.length !== 0 ?
+          <Card fluid header="My Projects" />
+          {
+                projects.length !== 0
+                  ? (
                     <Card.Group style={{ marginBottom: '1rem' }}>
-                        {projects.map((project) => <ProjectManageCard project={project} reloadHandler={this.fetchProjects} />)}
-                    </Card.Group> :
+                      {projects.map((project) => <ProjectManageCard project={project} reloadHandler={this.fetchProjects} />)}
+                    </Card.Group>
+                  )
+                  : (
                     <Message style={{ marginBottom: '1rem' }}>
-                        <Message.Header>No Projects</Message.Header>
-                        <p>
-                            Try creating some projects!
-                        </p>
+                      <Message.Header>No Projects</Message.Header>
+                      <p>
+                        Try creating some projects!
+                      </p>
                     </Message>
+                  )
             }
-            <ProjectEdit reloadHandler={this.fetchProjects} purpose="add" />
+          <ProjectEdit reloadHandler={this.fetchProjects} purpose="add" />
 
-            <Card fluid header="My Applications" />
-            {
-                applications.length !== 0 ?
+          <Card fluid header="My Applications" />
+          {
+                applications.length !== 0
+                  ? (
                     <Card.Group style={{ marginBottom: '1rem' }}>
-                        { applications.map((application) => <ApplicationCard shows="job" application={application} />) }
-                    </Card.Group> :
+                      { applications.map((application) => <ApplicationCard shows="job" application={application} />) }
+                    </Card.Group>
+                  )
+                  : (
                     <Message style={{ marginBottom: '1rem' }}>
-                        <Message.Header>No Applications</Message.Header>
-                        <p>
-                            Try applying to some positions!
-                        </p>
+                      <Message.Header>No Applications</Message.Header>
+                      <p>
+                        Try applying to some positions!
+                      </p>
                     </Message>
+                  )
             }
         </div>
       );

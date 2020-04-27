@@ -5,9 +5,12 @@ import {
 import projectAPI from '../../api/project';
 
 class ProjectEdit extends React.Component {
-  state = { modalOpen: false, title: '', description: '', loading: false };
+  state = {
+    modalOpen: false, title: '', description: '', loading: false,
+  };
 
   handleOpen = () => this.setState({ modalOpen: true });
+
   handleClose = () => this.setState({ modalOpen: false });
 
   componentDidMount() {
@@ -36,7 +39,9 @@ class ProjectEdit extends React.Component {
   };
 
   render() {
-    const { modalOpen, title, description, loading } = this.state;
+    const {
+      modalOpen, title, description, loading,
+    } = this.state;
     const { purpose } = this.props;
 
     return (

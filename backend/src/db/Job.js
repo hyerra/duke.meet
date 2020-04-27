@@ -57,12 +57,12 @@ class Job extends Table {
     try {
       const { session, table } = await Job.table();
       await table
-          .update()
-          .where(`id = ${SqlString.escape(this.id)}`)
-          .set('title', this.title)
-          .set('payment', this.payment)
-          .set('time_commitment', this.timeCommitment)
-          .execute();
+        .update()
+        .where(`id = ${SqlString.escape(this.id)}`)
+        .set('title', this.title)
+        .set('payment', this.payment)
+        .set('time_commitment', this.timeCommitment)
+        .execute();
       session.close();
     } catch (error) {
       throw error;

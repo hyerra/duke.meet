@@ -18,13 +18,13 @@ router.post('/', (req, res) => {
       if (!authorizedProjectIDs.includes(projectID)) return res.status(403).send({ error: 'User does not have access to project.' });
       return Job.createJobListing(projectID, title, payment, timeCommitment);
     })
-    .then(id => res.send({ id }))
+    .then((id) => res.send({ id }))
     .catch((error) => res.status(500).send({ error: error.message }));
 });
 
 router.put('/', (req, res) => {
-    let {
-    id, title, payment, time_commitment: timeCommitment
+  let {
+    id, title, payment, time_commitment: timeCommitment,
   } = req.body;
   if (!req.user) return res.status(401).send({ error: 'Not logged in.' });
   if (!id || !title || !payment || !timeCommitment) return res.status(400).send({ error: 'Missing one of the required fields.' });
@@ -33,14 +33,14 @@ router.put('/', (req, res) => {
 
   const existingJob = new Job(undefined, id);
   existingJob.fetchDetails()
-      .then(() => req.user.fetchProjectIDs())
-      .then((authorizedProjectIDs) => {
-        if (!authorizedProjectIDs.includes(existingJob.projectID)) return res.status(403).send({ error: 'User does not have access to project.' });
-        const job = new Job(existingJob.projectID, id, title, payment, timeCommitment);
-        return job.update();
-      })
-      .then(() => res.send({ success: true }))
-      .catch((error) => res.status(500).send({ error: error.message }));
+    .then(() => req.user.fetchProjectIDs())
+    .then((authorizedProjectIDs) => {
+      if (!authorizedProjectIDs.includes(existingJob.projectID)) return res.status(403).send({ error: 'User does not have access to project.' });
+      const job = new Job(existingJob.projectID, id, title, payment, timeCommitment);
+      return job.update();
+    })
+    .then(() => res.send({ success: true }))
+    .catch((error) => res.status(500).send({ error: error.message }));
 });
 
 router.post('/skills', (req, res) => {
@@ -60,7 +60,7 @@ router.post('/skills', (req, res) => {
     .then(() => JobRequires.setSkillsForJob(requirements))
     .then(() => res.send({ success: true }))
     .catch((error) => {
-        res.status(500).send({ error: error.message })
+      res.status(500).send({ error: error.message });
     });
 });
 

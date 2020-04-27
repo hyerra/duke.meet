@@ -1,9 +1,11 @@
 import { Card, Icon } from 'semantic-ui-react';
 import React from 'react';
 import ApplicationModal from '../Application/ApplicationModal';
-import JobEdit from './../Profile/JobEdit';
+import JobEdit from '../Profile/JobEdit';
 
-const JobCard = ({ project, reloadHandler, job, isLoggedIn, isEditable, mayApply = false }) => (
+const JobCard = ({
+  project, reloadHandler, job, isLoggedIn, isEditable, mayApply = false,
+}) => (
   <Card>
     <Card.Content>
       <Card.Header>{job.title}</Card.Header>
@@ -15,7 +17,7 @@ const JobCard = ({ project, reloadHandler, job, isLoggedIn, isEditable, mayApply
       {
         mayApply && isLoggedIn && <ApplicationModal job={job} />
       }
-        {
+      {
             isEditable && <JobEdit reloadHandler={reloadHandler} project={project} purpose="edit" job={job} />
         }
     </Card.Content>
