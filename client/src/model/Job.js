@@ -1,6 +1,6 @@
 class Job {
-  constructor(projectId, id, title, payment, timeCommitment) {
-    this.projectId = projectId;
+  constructor(projectID, id, title, payment, timeCommitment) {
+    this.projectID = projectID;
     this.id = id;
     this.title = title;
     this.payment = payment;

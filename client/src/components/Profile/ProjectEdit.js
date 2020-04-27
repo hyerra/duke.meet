@@ -1,14 +1,13 @@
 import React from 'react';
 import {
-  Form, Button, Modal, ModalContent,
+  Form, Button, Modal,
 } from 'semantic-ui-react';
 import projectAPI from '../../api/project';
 
 class ProjectEdit extends React.Component {
-  state = { modalOpen: false, title: '', description: '' };
+  state = { modalOpen: false, title: '', description: '', loading: false };
 
   handleOpen = () => this.setState({ modalOpen: true });
-
   handleClose = () => this.setState({ modalOpen: false });
 
   componentDidMount() {
@@ -21,21 +20,23 @@ class ProjectEdit extends React.Component {
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { title, description } = this.state;
     const { purpose, reloadHandler } = this.props;
+    this.setState({ loading: true });
     if (purpose === 'edit') {
       const { project } = this.props;
       const { id } = project;
-      projectAPI.put('/', { id, title, description });
+      await projectAPI.put('/', { id, title, description });
     }
-    if (purpose === 'add') projectAPI.post('/', { title, description });
+    if (purpose === 'add') await projectAPI.post('/', { title, description });
+    this.setState({ loading: false });
     reloadHandler();
     this.handleClose();
   };
 
   render() {
-    const { modalOpen, title, description } = this.state;
+    const { modalOpen, title, description, loading } = this.state;
     const { purpose } = this.props;
 
     return (
@@ -51,11 +52,11 @@ class ProjectEdit extends React.Component {
         onClose={this.handleClose}
         closeIcon
       >
-        <ModalContent>
-          <h1>Project Edit</h1>
-        </ModalContent>
-        <ModalContent>
-          <Form onSubmit={this.handleSubmit}>
+        <Modal.Content>
+          <h1>{ purpose === 'edit' ? 'Edit Project' : 'Add Project' }</h1>
+        </Modal.Content>
+        <Modal.Content>
+          <Form loading={loading} onSubmit={this.handleSubmit}>
             <Form.Input
               label="Project Name"
               placeholder="Project Name"
@@ -74,7 +75,7 @@ class ProjectEdit extends React.Component {
 
             <Form.Button content="Save" />
           </Form>
-        </ModalContent>
+        </Modal.Content>
       </Modal>
     );
   }

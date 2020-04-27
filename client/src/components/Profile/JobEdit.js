@@ -1,130 +1,116 @@
-// Job(project_id, id, title, payment, time_commitment)
-
 import React from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import {Modal, Button, Form, ModalContent} from 'semantic-ui-react';
+import jobAPI from '../../api/job';
+import DropdownSkillsSelection from './../Job/DropdownSkillsSelection';
 
 class JobEdit extends React.Component {
     state = {
-      projectName: '',
-      jobName: '',
+      modalOpen: false,
+      title: '',
       payment: '',
       timeCommitment: '',
-      submission: { // access submission in this.handleSubmit via this.state.submission
-        projectName: '',
-        jobName: '',
-        payment: '',
-        timeCommitment: '',
-      },
+      skills: [],
+        loading: false
     };
 
-    handleChange = (e, { name, value }) => this.setState({ [name]: value });
-
-    handleSubmit = () => {
-      const {
-        projectName, jobName, payment, timeCommitment,
-      } = this.state;
-      const submission = {
-        projectName, jobName, payment, timeCommitment,
-      };
-      // if you can figure out a better way to copy these elements over, be my goddamn guest.
-
-      this.setState({ submission });
+    componentDidMount() {
+      const { purpose } = this.props;
+      if (purpose === 'edit') {
+        const { title, payment, timeCommitment } = this.props.job;
+        this.setState({ title, payment, timeCommitment });
+      }
     }
 
-    render() {
+  handleOpen = () => this.setState({ modalOpen: true });
+  handleClose = () => this.setState({ modalOpen: false });
+
+    handleChange = (e, { name, value }) => this.setState({ [name]: value });
+    handleSkillsChanged = (e, { value }) => this.setState({ skills: value });
+
+    handleSubmit = async () => {
       const {
-        projectName, jobName, payment, timeCommitment, submission,
+        title, payment, timeCommitment, skills
       } = this.state;
+      this.setState({ loading: true });
+
+      const { purpose, reloadHandler } = this.props;
+      let jobID;
+
+      if (purpose === 'edit') {
+          const { job } = this.props;
+          const { id } = job;
+          jobID = id;
+          await jobAPI.put('/', { id, title, payment, time_commitment: timeCommitment });
+      }
+      if (purpose === 'add') {
+          const { project } = this.props;
+          const { id } = project;
+          try {
+              const response = await jobAPI.post('/', { project_id: id, title, payment, time_commitment: timeCommitment });
+              jobID = response.data.id;
+          } catch (error) {
+              console.log(error);
+          }
+      }
+
+      await jobAPI.post('/skills', { skills, job_id: jobID });
+      this.setState({ loading: false });
+      reloadHandler();
+
+      this.handleClose();
+    };
+
+    render() {
+      const { modalOpen, title, payment, timeCommitment, loading } = this.state;
+      const { purpose } = this.props;
 
       return (
-        <div>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Input
-                label="Project Name"
-                placeholder="project name"
-                name="projectName"
-                value={projectName}
+          <Modal
+              trigger={(
+                  <Button onClick={this.handleOpen} style={{ marginBottom: '1rem' }} onClick={this.handleOpen}>
+                    {purpose === 'edit' ? 'Edit' : 'Add'}
+                    {' '}
+                    Job
+                  </Button>
+              )}
+              open={modalOpen}
+              onClose={this.handleClose}
+              closeIcon
+          >
+            <ModalContent>
+              <h1>{ purpose === 'edit' ? 'Edit Job' : 'Add Job' }</h1>
+            </ModalContent>
+            <ModalContent>
+          <Form loading={loading} onSubmit={this.handleSubmit}>
+            <Form.Input
+                label="Job Title"
+                placeholder="Software Engineer"
+                name="title"
+                value={title}
                 onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
-                label="Job Name"
-                placeholder="job name"
-                name="jobName"
-                value={jobName}
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
+            />
+            <Form.Input
                 label="Payment"
-                placeholder="payment"
+                placeholder="5.00"
                 name="payment"
                 value={payment}
                 onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
+            />
+            <Form.Input
                 label="Time Commitment"
-                placeholder="time commitment"
+                placeholder="20 hrs/week"
                 name="timeCommitment"
                 value={timeCommitment}
                 onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Button content="save" type="submit" />
-            </Form.Group>
+            />
+            <DropdownSkillsSelection skillsChanged={this.handleSkillsChanged} />
+            <div style={{ marginBottom: '1rem' }} />
+            <Form.Button content="Save" />
           </Form>
-
-          <div style={{ textAlign: 'left' }}>
-            <strong>FORM:</strong>
-            <pre>
-              {JSON.stringify({
-                projectName, jobName, payment, timeCommitment,
-              }, null, 2)}
-            </pre>
-            <strong>SUBMITTED:</strong>
-            <pre>{JSON.stringify(submission, null, 2)}</pre>
-          </div>
-        </div>
+            </ModalContent>
+          </Modal>
       );
     }
-
-  // render() {
-  //     return (
-  //         <div>
-
-  // <Label>
-  //     <Icon name='p-name' /> Project Name
-  // </Label>
-  // <div class="ui input">
-  //     <input type="text" placeholder="Enter..."/>
-  // </div>
-  // <Label>
-  //     <Icon name='j-mail' /> Job Name
-  // </Label>
-  // <div class="ui input">
-  //     <input type="text" placeholder="Enter..."/>
-  // </div>
-  // <Label>
-  //     <Icon name='payment' /> Payment
-  // </Label>
-  // <div class="ui input">
-  //     <input type="text" placeholder="Enter..."/>
-  // </div>
-  // <Label>
-  //    <Icon name='time-c' /> Time Commitment
-  // </Label>
-  // <div class="ui input">
-  //     <input type="text" placeholder="Enter..."/>
-  // </div>
-
-  // </div>
-  //     );
 }
 
 

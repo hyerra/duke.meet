@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Card, Button, Message, Modal, ModalContent,
+  Card, Button, Message, Modal,
 } from 'semantic-ui-react';
 import applicationAPI from '../../api/application';
 import Application from '../../model/Application';
@@ -27,10 +27,9 @@ class ViewApplicationModal extends React.Component {
 
     render() {
       const { applications } = this.state;
-      console.log(applications);
       return (
         <Modal trigger={<Button>See Applications</Button>} closeIcon>
-          <ModalContent>
+          <Modal.Content>
             <h2>Applicants</h2>
             {
                         applications.length !== 0
@@ -48,7 +47,7 @@ class ViewApplicationModal extends React.Component {
                             </Message>
                           )
                     }
-          </ModalContent>
+          </Modal.Content>
         </Modal>
       );
     }

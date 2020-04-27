@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Header } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import ProjectCard from './ProjectCard';
 import project from '../../api/project';
 import Project from '../../model/Project';

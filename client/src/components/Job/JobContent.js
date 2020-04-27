@@ -6,13 +6,8 @@ import jobAPI from '../../api/job';
 import userAPI from '../../api/user';
 import Project from '../../model/Project';
 import Job from '../../model/Job';
-import Filter from './Filter';
+import DropdownSkillsSelection from './DropdownSkillsSelection';
 
-/**
- * represents a job listing page for a given project ID.
- *
- * <JobContent project_id: project_id/>
- */
 class JobContent extends React.Component {
     state = {
       project: { title: '', description: '' }, jobs: [], skills: {}, selectedSkills: [], isLoggedIn: false,
@@ -23,9 +18,7 @@ class JobContent extends React.Component {
       this.checkLoggedIn();
     }
 
-    handleSkillsChanged = (event, { value }) => {
-      this.setState({ selectedSkills: value });
-    };
+    handleSkillsChanged = (e, { value }) => this.setState({ selectedSkills: value });
 
     async checkLoggedIn() {
       try {
@@ -70,7 +63,7 @@ class JobContent extends React.Component {
         <div>
           <Header>{ title }</Header>
           <Label>{ description }</Label>
-          <Filter skillsChanged={this.handleSkillsChanged} />
+          <DropdownSkillsSelection skillsChanged={this.handleSkillsChanged} />
           <Card.Group>
             { jobs.map((job) => <JobCard job={job} mayApply isLoggedIn={this.state.isLoggedIn} />) }
           </Card.Group>

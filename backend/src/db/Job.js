@@ -3,10 +3,10 @@ const { client } = require('./db');
 const { Table } = require('./Table');
 
 class Job extends Table {
-  constructor(id, projectID, title, payment, timeCommitment) {
+  constructor(projectID, id, title, payment, timeCommitment) {
     super();
-    this.id = id;
     this.projectID = projectID;
+    this.id = id;
     this.title = title;
     this.payment = payment;
     this.timeCommitment = timeCommitment;
@@ -46,8 +46,24 @@ class Job extends Table {
         .execute();
       const result = await query.fetchOne();
       session.close();
-      if (!result) throw new Error('No matching user with id.');
+      if (!result) throw new Error('No matching job with id.');
       [this.projectID, , this.title, this.payment, this.timeCommitment] = result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update() {
+    try {
+      const { session, table } = await Job.table();
+      await table
+          .update()
+          .where(`id = ${SqlString.escape(this.id)}`)
+          .set('title', this.title)
+          .set('payment', this.payment)
+          .set('time_commitment', this.timeCommitment)
+          .execute();
+      session.close();
     } catch (error) {
       throw error;
     }
