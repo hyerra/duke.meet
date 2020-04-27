@@ -34,6 +34,8 @@ cd client
 npm run start
 ```
 
+The database connection is setup in the app and connected to the Virtual Machine. There is nothing you need to do in order to setup the database.
+
 ## Built With
 * [MySQL](https://www.mysql.com)
 * [NodeJS](https://nodejs.org/en/)
